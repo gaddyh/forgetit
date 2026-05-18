@@ -1,0 +1,77 @@
+{
+  "route": {
+    "traces": [],
+    "train": [],
+    "demos": [
+      {
+        "augmented": true,
+        "message": "לא לשכוח לקנות מגבון לניקוי התופים",
+        "action": "save",
+        "item": "לקנות מגבון לניקוי התופים"
+      },
+      {
+        "augmented": true,
+        "message": "מיקו אמר שהוא מגיע ברביעי בערב",
+        "action": "save",
+        "item": "מיקו מגיע ברביעי בערב"
+      },
+      {
+        "augmented": true,
+        "message": "השארתי את האוטו בגומא ליד הכניסה",
+        "action": "save",
+        "item": "האוטו בגומא ליד הכניסה"
+      },
+      {
+        "augmented": true,
+        "message": "יש 300000 שצריך לשמור בצד עד שהיא מוכנה",
+        "action": "save",
+        "item": "300000 שצריך לשמור בצד עד שהיא מוכנה"
+      },
+      {
+        "message": "לבדוק כמה תיווך בגבעתיים",
+        "action": "save",
+        "item": "לבדוק כמה תיווך בגבעתיים"
+      },
+      {
+        "message": "לשלוח מייל לעירית לגבי הביטוח",
+        "action": "save",
+        "item": "לשלוח מייל לעירית לגבי הביטוח"
+      },
+      {
+        "message": "בחדר הנוסף צריך בערך 20 ממר",
+        "action": "save",
+        "item": "20 ממר לחדר נוסף"
+      },
+      {
+        "message": "לעדכן קורות חיים בלינקדאין",
+        "action": "save",
+        "item": "לעדכן קורות חיים בלינקדאין"
+      }
+    ],
+    "signature": {
+      "instructions": "Classify a short WhatsApp-style message as either saving memory or retrieving memory.\n\nReturn only:\n- action: save or retrieve\n- item: the memory object\n\nDo not extract entities.\nDo not return people, subjects, locations, times, amounts, or links.\nDo not explain.",
+      "fields": [
+        {
+          "prefix": "Message:",
+          "description": "A short WhatsApp-style message from the user."
+        },
+        {
+          "prefix": "Action:",
+          "description": "Either 'save' or 'retrieve'."
+        },
+        {
+          "prefix": "Item:",
+          "description": "The clean memory item being saved or searched for."
+        }
+      ]
+    },
+    "lm": null
+  },
+  "metadata": {
+    "dependency_versions": {
+      "python": "3.13",
+      "dspy": "3.2.1",
+      "cloudpickle": "3.1"
+    }
+  }
+}
