@@ -11,8 +11,9 @@ from dotenv import load_dotenv
 from pydantic import BaseModel, TypeAdapter
 
 from app.item_judge import ItemSemanticJudge
-from app.metrics import evaluate_predictions, print_metrics
+from app.metrics import EvalMetrics, evaluate_predictions, print_metrics
 from app.program import MemoryRouter, MemoryRouterResult
+from app.report import RowResult, make_run_id, render_optimize_report, save_report
 
 
 Action = Literal["save", "retrieve"]
@@ -152,7 +153,7 @@ def evaluate_program(
     rows: list[DatasetRow],
     item_judge: ItemSemanticJudge,
     title: str,
-) -> None:
+) -> tuple[list[EvaluatedRow], EvalMetrics]:
     print("\n" + "#" * 80)
     print(title)
     print("#" * 80)
@@ -215,6 +216,8 @@ def evaluate_program(
 
     print_metrics(metrics)
 
+    return evaluated_rows, metrics
+
 
 def save_compiled_program(program: MemoryRouter, output_path: Path) -> None:
     output_path.parent.mkdir(parents=True, exist_ok=True)
@@ -250,11 +253,13 @@ def optimize(
 
     trainset = to_dspy_examples(train_rows)
 
+    run_id = make_run_id()
+
     item_judge = ItemSemanticJudge()
 
     baseline = MemoryRouter()
 
-    evaluate_program(
+    baseline_rows, baseline_metrics = evaluate_program(
         program=baseline,
         rows=eval_rows,
         item_judge=item_judge,
@@ -282,7 +287,7 @@ def optimize(
         trainset=trainset,
     )
 
-    evaluate_program(
+    optimized_rows, optimized_metrics = evaluate_program(
         program=compiled,
         rows=eval_rows,
         item_judge=item_judge,
@@ -290,6 +295,35 @@ def optimize(
     )
 
     save_compiled_program(compiled, output_path)
+
+    def _to_row_result(row: EvaluatedRow) -> RowResult:
+        return RowResult(
+            id=row.id,
+            message=row.input.message,
+            expected_action=row.expected.action,
+            expected_item=row.expected.item,
+            predicted_action=row.predicted.action,
+            predicted_item=row.predicted.item,
+        )
+
+    report_content = render_optimize_report(
+        run_id=run_id,
+        dataset_path=str(dataset_path),
+        train_split=train_split,
+        eval_split=eval_split,
+        model="gpt-4o-mini",
+        optimizer="BootstrapFewShot",
+        max_bootstrapped_demos=max_bootstrapped_demos,
+        max_labeled_demos=max_labeled_demos,
+        artifact_path=str(output_path),
+        baseline_rows=[_to_row_result(r) for r in baseline_rows],
+        baseline_metrics=baseline_metrics,
+        optimized_rows=[_to_row_result(r) for r in optimized_rows],
+        optimized_metrics=optimized_metrics,
+    )
+
+    report_path = save_report(run_id, report_content)
+    print(f"Report saved to: {report_path}")
 
     print("\nSAVED")
     print("=" * 80)

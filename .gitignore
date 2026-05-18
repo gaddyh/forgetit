@@ -3,6 +3,7 @@
 !pyproject.toml
 
 data/raw/
+artifacts/
 
 # Python
 __pycache__/

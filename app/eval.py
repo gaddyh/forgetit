@@ -13,6 +13,7 @@ from pydantic import BaseModel, Field, TypeAdapter
 from app.metrics import evaluate_predictions, print_metrics
 from app.program import MemoryRouter, MemoryRouterResult
 from app.item_judge import ItemSemanticJudge
+from app.report import RowResult, make_run_id, render_eval_report, save_report
 
 Action = Literal["save", "retrieve"]
 
@@ -98,6 +99,8 @@ def to_metrics_row(row: EvaluatedRow) -> dict[str, Any]:
 
 
 def run_eval(dataset_path: Path, split: str) -> None:
+    run_id = make_run_id()
+
     configure_dspy()
 
     dataset_rows = load_jsonl(dataset_path)
@@ -154,6 +157,30 @@ def run_eval(dataset_path: Path, split: str) -> None:
     )
 
     print_metrics(metrics)
+
+    row_results = [
+        RowResult(
+            id=row.id,
+            message=row.input.message,
+            expected_action=row.expected.action,
+            expected_item=row.expected.item,
+            predicted_action=row.predicted.action,
+            predicted_item=row.predicted.item,
+        )
+        for row in evaluated_rows
+    ]
+
+    report_content = render_eval_report(
+        run_id=run_id,
+        dataset_path=str(dataset_path),
+        split=split,
+        model="gpt-4o-mini",
+        rows=row_results,
+        metrics=metrics,
+    )
+
+    report_path = save_report(run_id, report_content, filename="eval_report.md")
+    print(f"Report saved to: {report_path}")
 
 
 def parse_args() -> argparse.Namespace:
