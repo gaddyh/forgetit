@@ -1,0 +1,10 @@
+{"message":"רועי משכנתא","expected":{"status":"incomplete","missing_fields":["time","context"]}}
+{"message":"מחר בערב מסמכים לבנק","existing_memory":{"anchor":"רועי משכנתא"},"expected":{"status":"complete","memory":{"mode":"actionable","anchor":"רועי משכנתא","time":"מחר בערב","context":"מסמכים לבנק","link":null}}}
+{"message":"יובל רביעי","expected":{"status":"incomplete","missing_fields":["context"]}}
+{"message":"פגישה על האתר החדש","existing_memory":{"anchor":"יובל","time":"רביעי"},"expected":{"status":"complete","memory":{"mode":"actionable","anchor":"יובל","time":"רביעי","context":"פגישה על האתר החדש","link":null}}}
+{"message":"דרכון אוגוסט","expected":{"status":"complete","memory":{"mode":"reference","anchor":"דרכון","time":"אוגוסט","context":"דרכון","link":null}}}
+{"message":"רכב טסט","expected":{"status":"incomplete","missing_fields":["time"]}}
+{"message":"עוד שבועיים","existing_memory":{"anchor":"רכב טסט"},"expected":{"status":"complete","memory":{"mode":"actionable","anchor":"רכב טסט","time":"עוד שבועיים","context":"טסט לרכב","link":null}}}
+{"message":"הילה","expected":{"status":"incomplete","missing_fields":["time","context"]}}
+{"message":"ראשון בצהריים לדבר על הגן","existing_memory":{"anchor":"הילה"},"expected":{"status":"complete","memory":{"mode":"actionable","anchor":"הילה","time":"ראשון בצהריים","context":"לדבר על הגן","link":null}}}
+{"message":"אינסטלטור מחר דחוף","expected":{"status":"complete","memory":{"mode":"actionable","anchor":"אינסטלטור","time":"מחר","context":"בעיה דחופה","link":null}}}

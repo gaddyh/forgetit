@@ -1,0 +1,20 @@
+{"message":"שי סמבה","expected":{"status":"incomplete","missing_fields":["time","context"]}}
+{"message":"מחר בבוקר יועץ נדלן","existing_memory":{"anchor":"שי סמבה"},"expected":{"status":"complete","memory":{"mode":"actionable","anchor":"שי סמבה","time":"מחר בבוקר","context":"יועץ נדלן","link":null}}}
+{"message":"יוסי 4200","expected":{"status":"incomplete","missing_fields":["time","context"]}}
+{"message":"סוף חודש תשלום דירה","existing_memory":{"anchor":"יוסי 4200"},"expected":{"status":"complete","memory":{"mode":"actionable","anchor":"יוסי 4200","time":"סוף חודש","context":"תשלום דירה","link":null}}}
+{"message":"מיקו שישי","expected":{"status":"incomplete","missing_fields":["context"]}}
+{"message":"מתנת יום הולדת","existing_memory":{"anchor":"מיקו","time":"שישי"},"expected":{"status":"complete","memory":{"mode":"actionable","anchor":"מיקו","time":"שישי","context":"מתנת יום הולדת","link":null}}}
+{"message":"דנה רופא מחר ב10","expected":{"status":"complete","memory":{"mode":"actionable","anchor":"דנה","time":"מחר ב10","context":"רופא","link":null}}}
+{"message":"ביטוח רכב שבוע הבא","expected":{"status":"complete","memory":{"mode":"actionable","anchor":"ביטוח רכב","time":"שבוע הבא","context":"ביטוח רכב","link":null}}}
+{"message":"מס הכנסה","expected":{"status":"incomplete","missing_fields":["time","context"]}}
+{"message":"ראשון בבוקר להגיש דוח","existing_memory":{"anchor":"מס הכנסה"},"expected":{"status":"complete","memory":{"mode":"actionable","anchor":"מס הכנסה","time":"ראשון בבוקר","context":"להגיש דוח","link":null}}}
+{"message":"מאמר טוב על dspy https://example.com/dspy","expected":{"status":"complete","memory":{"mode":"reference","anchor":"מאמר טוב על dspy","time":null,"context":"מאמר על dspy","link":"https://example.com/dspy"}}}
+{"message":"קישור לקורס גיטרה גאז https://example.com/jazz","expected":{"status":"complete","memory":{"mode":"reference","anchor":"קורס גיטרה גאז","time":null,"context":"קורס גיטרה גאז","link":"https://example.com/jazz"}}}
+{"message":"הסיסמה של הראוטר אצל אמא נמצאת על המדבקה מאחור","expected":{"status":"complete","memory":{"mode":"reference","anchor":"סיסמה של הראוטר אצל אמא","time":null,"context":"נמצאת על המדבקה מאחור","link":null}}}
+{"message":"מספר הזמנה איקאה 458991","expected":{"status":"complete","memory":{"mode":"reference","anchor":"מספר הזמנה איקאה","time":null,"context":"458991","link":null}}}
+{"message":"אמא חמישי","expected":{"status":"incomplete","missing_fields":["context"]}}
+{"message":"ארוחת ערב","existing_memory":{"anchor":"אמא","time":"חמישי"},"expected":{"status":"complete","memory":{"mode":"actionable","anchor":"אמא","time":"חמישי","context":"ארוחת ערב","link":null}}}
+{"message":"תור שיניים עוד חודש","expected":{"status":"complete","memory":{"mode":"actionable","anchor":"תור שיניים","time":"עוד חודש","context":"תור שיניים","link":null}}}
+{"message":"אייל חוזה","expected":{"status":"incomplete","missing_fields":["time","context"]}}
+{"message":"מחר לעבור על סעיפים","existing_memory":{"anchor":"אייל חוזה"},"expected":{"status":"complete","memory":{"mode":"actionable","anchor":"אייל חוזה","time":"מחר","context":"לעבור על סעיפים","link":null}}}
+{"message":"לבדוק את הלינק הזה","expected":{"status":"incomplete","missing_fields":["context"]}}

@@ -1,77 +1,50 @@
-from __future__ import annotations
-
-from typing import Literal
-
+import json
 import dspy
-from pydantic import BaseModel, Field
+
+from app.models import MemoryExtraction
 
 
-Action = Literal["save", "retrieve"]
-
-
-class MemoryRouterResult(BaseModel):
-    action: Action = Field(
-        description="Either 'save' or 'retrieve'."
-    )
-    item: str = Field(
-        description=(
-            "The memory item. For save, write the clean item to remember. "
-            "For retrieve, write the item the user is trying to find."
-        )
-    )
-
-
-class RouteMemoryMessage(dspy.Signature):
+class ExtractMemorySignature(dspy.Signature):
     """
-    Classify a short WhatsApp-style message as either saving memory or retrieving memory.
+    Extract a safe-to-forget memory item from a short human message.
 
-    Return only:
-    - action: save or retrieve
-    - item: the memory object
-
-    Do not extract entities.
-    Do not return people, subjects, locations, times, amounts, or links.
-    Do not explain.
+    Rules:
+    - Complete actionable memory needs time and context.
+    - Complete reference memory needs enough context to be searchable later.
+    - If existing_memory is provided, merge the new message into it.
+    - Do not invent missing fields.
     """
 
-    message: str = dspy.InputField(
-        description="A short WhatsApp-style message from the user."
+    message: str = dspy.InputField(desc="The latest user message.")
+
+    existing_memory_json: str | None = dspy.InputField(
+        desc="Optional partial memory JSON from a previous turn, or null."
     )
 
-    action: Action = dspy.OutputField(
-        description="Either 'save' or 'retrieve'."
-    )
-
-    item: str = dspy.OutputField(
-        description="The clean memory item being saved or searched for."
+    extraction: MemoryExtraction = dspy.OutputField(
+        desc="MemoryExtraction object."
     )
 
 
-class MemoryRouter(dspy.Module):
-    def __init__(self) -> None:
+class ExtractMemoryProgram(dspy.Module):
+    def __init__(self):
         super().__init__()
-        self.route = dspy.Predict(RouteMemoryMessage)
+        self.extract = dspy.Predict(ExtractMemorySignature)
 
-    def forward(self, message: str) -> MemoryRouterResult:
-        prediction = self.route(message=message)
-
-        return MemoryRouterResult(
-            action=normalize_action(prediction.action),
-            item=normalize_item(prediction.item),
+    def forward(
+        self,
+        message: str,
+        existing_memory: dict | None = None,
+    ) -> MemoryExtraction:
+        existing_memory_json = (
+            json.dumps(existing_memory, ensure_ascii=False)
+            if existing_memory is not None
+            else None
         )
 
+        prediction = self.extract(
+            message=message,
+            existing_memory_json=existing_memory_json,
+        )
 
-def normalize_action(value: str) -> Action:
-    value = str(value).strip().lower()
-
-    if value == "save":
-        return "save"
-
-    if value == "retrieve":
-        return "retrieve"
-
-    raise ValueError(f"Invalid action returned by model: {value!r}")
-
-
-def normalize_item(value: str) -> str:
-    return " ".join(str(value).strip().split())
+        return prediction.extraction

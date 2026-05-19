@@ -1,89 +1,20 @@
-from __future__ import annotations
-
 from dataclasses import dataclass
-from typing import Any, Callable
+from typing import Any
 
 
-SemanticScorer = Callable[[str, str], bool]
-
-
-@dataclass(frozen=True)
-class ActionMetrics:
-    action: str
-    tp: int
-    fp: int
-    fn: int
-    precision: float
-    recall: float
-    f1: float
-
-
-@dataclass(frozen=True)
-class ItemMetrics:
-    exact_matches: int
-    token_f1_sum: float
-    semantic_matches: int | None
-    total: int
-    exact_accuracy: float
-    avg_token_f1: float
-    semantic_accuracy: float | None
-
-
-@dataclass(frozen=True)
-class EvalMetrics:
-    total: int
-    action_accuracy: float
-    macro_precision: float
-    macro_recall: float
-    macro_f1: float
-    per_action: list[ActionMetrics]
-    item: ItemMetrics
-
-
-def normalize_text(value: str | None) -> str:
-    if value is None:
+def normalize(value: str | None) -> str:
+    if not value:
         return ""
-
     return " ".join(value.strip().lower().split())
 
 
-def tokenize(value: str | None) -> list[str]:
-    normalized = normalize_text(value)
-    if not normalized:
-        return []
-
-    return normalized.split()
+def exact_match(expected: str | None, predicted: str | None) -> float:
+    return 1.0 if normalize(expected) == normalize(predicted) else 0.0
 
 
-def safe_get_action(row: dict[str, Any], key: str) -> str:
-    return normalize_text(row[key]["action"])
-
-
-def safe_get_item(row: dict[str, Any], key: str) -> str:
-    return normalize_text(row[key]["item"])
-
-
-def precision(tp: int, fp: int) -> float:
-    if tp + fp == 0:
-        return 0.0
-    return tp / (tp + fp)
-
-
-def recall(tp: int, fn: int) -> float:
-    if tp + fn == 0:
-        return 0.0
-    return tp / (tp + fn)
-
-
-def f1_score(p: float, r: float) -> float:
-    if p + r == 0:
-        return 0.0
-    return 2 * p * r / (p + r)
-
-
-def token_f1(expected: str, predicted: str) -> float:
-    expected_tokens = tokenize(expected)
-    predicted_tokens = tokenize(predicted)
+def token_f1(expected: str | None, predicted: str | None) -> float:
+    expected_tokens = set(normalize(expected).split())
+    predicted_tokens = set(normalize(predicted).split())
 
     if not expected_tokens and not predicted_tokens:
         return 1.0
@@ -91,215 +22,171 @@ def token_f1(expected: str, predicted: str) -> float:
     if not expected_tokens or not predicted_tokens:
         return 0.0
 
-    expected_counts: dict[str, int] = {}
-    predicted_counts: dict[str, int] = {}
+    tp = len(expected_tokens & predicted_tokens)
+    fp = len(predicted_tokens - expected_tokens)
+    fn = len(expected_tokens - predicted_tokens)
 
-    for token in expected_tokens:
-        expected_counts[token] = expected_counts.get(token, 0) + 1
+    precision = tp / (tp + fp) if tp + fp else 0.0
+    recall = tp / (tp + fn) if tp + fn else 0.0
 
-    for token in predicted_tokens:
-        predicted_counts[token] = predicted_counts.get(token, 0) + 1
+    return 0.0 if precision + recall == 0 else 2 * precision * recall / (precision + recall)
 
-    overlap = 0
 
-    for token, expected_count in expected_counts.items():
-        predicted_count = predicted_counts.get(token, 0)
-        overlap += min(expected_count, predicted_count)
+def list_f1(expected: list[str], predicted: list[str]) -> float:
+    expected_set = {normalize(x) for x in expected if normalize(x)}
+    predicted_set = {normalize(x) for x in predicted if normalize(x)}
 
-    if overlap == 0:
+    if not expected_set and not predicted_set:
+        return 1.0
+
+    if not expected_set or not predicted_set:
         return 0.0
 
-    p = overlap / len(predicted_tokens)
-    r = overlap / len(expected_tokens)
+    tp = len(expected_set & predicted_set)
+    fp = len(predicted_set - expected_set)
+    fn = len(expected_set - predicted_set)
 
-    return f1_score(p, r)
+    precision = tp / (tp + fp) if tp + fp else 0.0
+    recall = tp / (tp + fn) if tp + fn else 0.0
+
+    return 0.0 if precision + recall == 0 else 2 * precision * recall / (precision + recall)
 
 
-def evaluate_predictions(
-    rows: list[dict[str, Any]],
-    *,
-    expected_key: str = "expected",
-    predicted_key: str = "predicted",
-    item_semantic_scorer: SemanticScorer | None = None,
-) -> EvalMetrics:
-    """
-    Expected row shape:
+@dataclass(frozen=True)
+class RowMetrics:
+    status_match: float
 
-    {
-        "input": {"message": "..."},
-        "expected": {
-            "action": "save",
-            "item": "..."
-        },
-        "predicted": {
-            "action": "save",
-            "item": "..."
-        }
-    }
+    false_complete: float
+    false_incomplete: float
 
-    item_semantic_scorer:
-        Optional function that receives:
-            expected_item: str
-            predicted_item: str
+    missing_fields_f1: float | None
 
-        And returns:
-            True  -> same memory object
-            False -> different memory object
-    """
+    mode_match: float | None
+    anchor_match: float | None
+    time_match: float | None
+    context_exact_match: float | None
+    context_token_f1: float | None
+    link_match: float | None
 
-    if not rows:
-        return EvalMetrics(
-            total=0,
-            action_accuracy=0.0,
-            macro_precision=0.0,
-            macro_recall=0.0,
-            macro_f1=0.0,
-            per_action=[],
-            item=ItemMetrics(
-                exact_matches=0,
-                token_f1_sum=0.0,
-                semantic_matches=None,
-                total=0,
-                exact_accuracy=0.0,
-                avg_token_f1=0.0,
-                semantic_accuracy=None,
-            ),
+    memory_field_score: float | None
+    product_score: float
+
+
+def get_memory(result: dict[str, Any]) -> dict[str, Any] | None:
+    return result.get("memory")
+
+
+def score_row(expected: dict[str, Any], predicted: dict[str, Any]) -> RowMetrics:
+    expected_status = expected.get("status")
+    predicted_status = predicted.get("status")
+
+    expected_complete = expected_status == "complete"
+    predicted_complete = predicted_status == "complete"
+
+    status_match = 1.0 if expected_status == predicted_status else 0.0
+
+    false_complete = 1.0 if not expected_complete and predicted_complete else 0.0
+    false_incomplete = 1.0 if expected_complete and not predicted_complete else 0.0
+
+    missing_fields_f1 = None
+    if expected_status == "incomplete":
+        missing_fields_f1 = list_f1(
+            expected.get("missing_fields", []),
+            predicted.get("missing_fields", []),
         )
 
-    labels: set[str] = set()
+    expected_memory = get_memory(expected)
+    predicted_memory = get_memory(predicted)
 
-    for row in rows:
-        labels.add(safe_get_action(row, expected_key))
-        labels.add(safe_get_action(row, predicted_key))
+    mode_match = None
+    anchor_match = None
+    time_match = None
+    context_exact_match = None
+    context_token_f1 = None
+    link_match = None
+    memory_field_score = None
 
-    counts = {
-        label: {"tp": 0, "fp": 0, "fn": 0}
-        for label in sorted(labels)
-    }
-
-    correct_actions = 0
-    exact_item_matches = 0
-    item_token_f1_sum = 0.0
-    semantic_matches = 0 if item_semantic_scorer is not None else None
-
-    for row in rows:
-        expected_action = safe_get_action(row, expected_key)
-        predicted_action = safe_get_action(row, predicted_key)
-
-        expected_item = safe_get_item(row, expected_key)
-        predicted_item = safe_get_item(row, predicted_key)
-
-        if expected_action == predicted_action:
-            correct_actions += 1
-            counts[expected_action]["tp"] += 1
-        else:
-            counts[predicted_action]["fp"] += 1
-            counts[expected_action]["fn"] += 1
-
-        if expected_item == predicted_item:
-            exact_item_matches += 1
-
-        item_token_f1_sum += token_f1(expected_item, predicted_item)
-
-        if item_semantic_scorer is not None:
-            assert semantic_matches is not None
-            if item_semantic_scorer(expected_item, predicted_item):
-                semantic_matches += 1
-
-    per_action: list[ActionMetrics] = []
-
-    for action, values in counts.items():
-        tp = values["tp"]
-        fp = values["fp"]
-        fn = values["fn"]
-
-        p = precision(tp, fp)
-        r = recall(tp, fn)
-        f1 = f1_score(p, r)
-
-        per_action.append(
-            ActionMetrics(
-                action=action,
-                tp=tp,
-                fp=fp,
-                fn=fn,
-                precision=p,
-                recall=r,
-                f1=f1,
-            )
+    if expected_memory is not None and predicted_memory is not None:
+        mode_match = exact_match(
+            expected_memory.get("mode"),
+            predicted_memory.get("mode"),
+        )
+        anchor_match = exact_match(
+            expected_memory.get("anchor"),
+            predicted_memory.get("anchor"),
+        )
+        time_match = exact_match(
+            expected_memory.get("time"),
+            predicted_memory.get("time"),
+        )
+        context_exact_match = exact_match(
+            expected_memory.get("context"),
+            predicted_memory.get("context"),
+        )
+        context_token_f1 = token_f1(
+            expected_memory.get("context"),
+            predicted_memory.get("context"),
+        )
+        link_match = exact_match(
+            expected_memory.get("link"),
+            predicted_memory.get("link"),
         )
 
-    macro_precision = sum(m.precision for m in per_action) / len(per_action)
-    macro_recall = sum(m.recall for m in per_action) / len(per_action)
-    macro_f1 = sum(m.f1 for m in per_action) / len(per_action)
+        memory_field_score = (
+            0.15 * mode_match
+            + 0.20 * anchor_match
+            + 0.20 * time_match
+            + 0.35 * context_token_f1
+            + 0.10 * link_match
+        )
 
-    total = len(rows)
+    # Product score: more honest than simple average.
+    # Complete rows care mostly about status + usable memory.
+    # Incomplete rows care mostly about status + missing fields.
+    if expected_complete:
+        product_score = (
+            0.50 * status_match
+            + 0.50 * (memory_field_score or 0.0)
+        )
+    else:
+        product_score = (
+            0.60 * status_match
+            + 0.40 * (missing_fields_f1 or 0.0)
+        )
 
-    semantic_accuracy = None
-    if semantic_matches is not None:
-        semantic_accuracy = semantic_matches / total
-
-    return EvalMetrics(
-        total=total,
-        action_accuracy=correct_actions / total,
-        macro_precision=macro_precision,
-        macro_recall=macro_recall,
-        macro_f1=macro_f1,
-        per_action=per_action,
-        item=ItemMetrics(
-            exact_matches=exact_item_matches,
-            token_f1_sum=item_token_f1_sum,
-            semantic_matches=semantic_matches,
-            total=total,
-            exact_accuracy=exact_item_matches / total,
-            avg_token_f1=item_token_f1_sum / total,
-            semantic_accuracy=semantic_accuracy,
-        ),
+    return RowMetrics(
+        status_match=status_match,
+        false_complete=false_complete,
+        false_incomplete=false_incomplete,
+        missing_fields_f1=missing_fields_f1,
+        mode_match=mode_match,
+        anchor_match=anchor_match,
+        time_match=time_match,
+        context_exact_match=context_exact_match,
+        context_token_f1=context_token_f1,
+        link_match=link_match,
+        memory_field_score=memory_field_score,
+        product_score=product_score,
     )
 
 
-def print_metrics(metrics: EvalMetrics) -> None:
-    print("\nOVERALL")
-    print("=" * 80)
-    print(f"Total:           {metrics.total}")
-    print(f"Action Accuracy: {metrics.action_accuracy:.4f}")
-    print(f"Macro Precision: {metrics.macro_precision:.4f}")
-    print(f"Macro Recall:    {metrics.macro_recall:.4f}")
-    print(f"Macro F1:        {metrics.macro_f1:.4f}")
+def average(values: list[float | None]) -> float:
+    real_values = [v for v in values if v is not None]
+    return sum(real_values) / len(real_values) if real_values else 0.0
 
-    print("\nPER ACTION")
-    print("=" * 80)
-    print(
-        f"{'Action':<12} "
-        f"{'TP':>4} "
-        f"{'FP':>4} "
-        f"{'FN':>4} "
-        f"{'Precision':>10} "
-        f"{'Recall':>10} "
-        f"{'F1':>10}"
-    )
-    print("-" * 80)
 
-    for row in metrics.per_action:
-        print(
-            f"{row.action:<12} "
-            f"{row.tp:>4} "
-            f"{row.fp:>4} "
-            f"{row.fn:>4} "
-            f"{row.precision:>10.4f} "
-            f"{row.recall:>10.4f} "
-            f"{row.f1:>10.4f}"
-        )
-
-    print("\nITEM")
-    print("=" * 80)
-    print(f"Exact Matches:      {metrics.item.exact_matches}/{metrics.item.total}")
-    print(f"Exact Accuracy:     {metrics.item.exact_accuracy:.4f}")
-    print(f"Average Token F1:   {metrics.item.avg_token_f1:.4f}")
-
-    if metrics.item.semantic_accuracy is not None:
-        print(
-            f"Semantic Matches:   "
-            f"{metrics.item.semantic_matches}/{metrics.item.total}"
-        )
-        print(f"Semantic Accuracy:  {metrics.item.semantic_accuracy:.4f}")
+def summarize(results: list[RowMetrics]) -> dict[str, float]:
+    return {
+        "status_match": average([r.status_match for r in results]),
+        "false_complete_rate": average([r.false_complete for r in results]),
+        "false_incomplete_rate": average([r.false_incomplete for r in results]),
+        "missing_fields_f1": average([r.missing_fields_f1 for r in results]),
+        "mode_match": average([r.mode_match for r in results]),
+        "anchor_match": average([r.anchor_match for r in results]),
+        "time_match": average([r.time_match for r in results]),
+        "context_exact_match": average([r.context_exact_match for r in results]),
+        "context_token_f1": average([r.context_token_f1 for r in results]),
+        "link_match": average([r.link_match for r in results]),
+        "memory_field_score": average([r.memory_field_score for r in results]),
+        "product_score": average([r.product_score for r in results]),
+    }

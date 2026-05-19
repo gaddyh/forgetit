@@ -1,0 +1,10 @@
+{"message":"נועה ביטוח","expected":{"status":"incomplete","missing_fields":["time","context"]}}
+{"message":"יום שני לחדש פוליסה","existing_memory":{"anchor":"נועה ביטוח"},"expected":{"status":"complete","memory":{"mode":"actionable","anchor":"נועה ביטוח","time":"יום שני","context":"לחדש פוליסה","link":null}}}
+{"message":"עומר שישי","expected":{"status":"incomplete","missing_fields":["context"]}}
+{"message":"להחזיר מצלמה","existing_memory":{"anchor":"עומר","time":"שישי"},"expected":{"status":"complete","memory":{"mode":"actionable","anchor":"עומר","time":"שישי","context":"להחזיר מצלמה","link":null}}}
+{"message":"טיסה לרומא ספטמבר","expected":{"status":"complete","memory":{"mode":"reference","anchor":"טיסה לרומא","time":"ספטמבר","context":"טיסה לרומא","link":null}}}
+{"message":"רופא שיניים","expected":{"status":"incomplete","missing_fields":["time"]}}
+{"message":"חודש הבא","existing_memory":{"anchor":"רופא שיניים"},"expected":{"status":"complete","memory":{"mode":"actionable","anchor":"רופא שיניים","time":"חודש הבא","context":"רופא שיניים","link":null}}}
+{"message":"https://react.dev useEffect","expected":{"status":"complete","memory":{"mode":"reference","anchor":"React useEffect","time":null,"context":"תיעוד useEffect","link":"https://react.dev"}}}
+{"message":"אבי חוזה","expected":{"status":"incomplete","missing_fields":["time","context"]}}
+{"message":"שלישי לעבור על סעיף 4","existing_memory":{"anchor":"אבי חוזה"},"expected":{"status":"complete","memory":{"mode":"actionable","anchor":"אבי חוזה","time":"שלישי","context":"לעבור על סעיף 4","link":null}}}

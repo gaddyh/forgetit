@@ -1,80 +1,328 @@
-{"id": "save_001", "input": {"split": "train", "message": "לא לשכוח לקנות מגבון לניקוי התופים"}, "output": {"action": "save", "item": "לקנות מגבון לניקוי התופים"}}
-{"id": "save_002", "input": {"split": "train", "message": "מיקו אמר שהוא מגיע ברביעי בערב"}, "output": {"action": "save", "item": "מיקו מגיע ברביעי בערב"}}
-{"id": "save_003", "input": {"split": "train", "message": "יוסי צריך לקבל את כל המיילים של הקרנות"}, "output": {"action": "save", "item": "לשלוח ליוסי את המיילים של הקרנות"}}
-{"id": "save_004", "input": {"split": "train", "message": "השארתי את האוטו בגומא ליד הכניסה"}, "output": {"action": "save", "item": "האוטו בגומא ליד הכניסה"}}
-{"id": "save_005", "input": {"split": "train", "message": "יש 300000 שצריך לשמור בצד עד שהיא מוכנה"}, "output": {"action": "save", "item": "300000 לשמור בצד עד שהיא מוכנה"}}
-{"id": "save_006", "input": {"split": "train", "message": "דני הרואה חשבון מחר בעשר"}, "output": {"action": "save", "item": "דני הרואה חשבון מחר בעשר"}}
-{"id": "save_007", "input": {"split": "train", "message": "לבדוק את המשרה הזאת בלינקדאין https://www.linkedin.com/jobs/view/4403781508/"}, "output": {"action": "save", "item": "לבדוק משרה בלינקדאין https://www.linkedin.com/jobs/view/4403781508/"}}
-{"id": "save_008", "input": {"split": "train", "message": "לבדוק כמה עולה ביטוח רכב השנה"}, "output": {"action": "save", "item": "לבדוק כמה עולה ביטוח רכב השנה"}}
-{"id": "save_009", "input": {"split": "train", "message": "לקנות לאמא מתנה עד שישי"}, "output": {"action": "save", "item": "לקנות לאמא מתנה עד שישי"}}
-{"id": "save_010", "input": {"split": "train", "message": "לברר מה הסיפור עם היטל השבחה"}, "output": {"action": "save", "item": "לברר היטל השבחה"}}
-{"id": "save_011", "input": {"split": "train", "message": "האוטו נשאר בשדה נחמיה"}, "output": {"action": "save", "item": "האוטו בשדה נחמיה"}}
-{"id": "save_012", "input": {"split": "train", "message": "הארנונה יצאה 2500"}, "output": {"action": "save", "item": "ארנונה 2500"}}
-{"id": "save_013", "input": {"split": "train", "message": "לעדכן קורות חיים בלינקדאין"}, "output": {"action": "save", "item": "לעדכן קורות חיים בלינקדאין"}}
-{"id": "save_014", "input": {"split": "train", "message": "לשלוח מייל לעירית לגבי הביטוח"}, "output": {"action": "save", "item": "לשלוח מייל לעירית לגבי הביטוח"}}
-{"id": "save_015", "input": {"split": "train", "message": "לחדרים לקחת צבע לבן"}, "output": {"action": "save", "item": "צבע לבן לחדרים"}}
-{"id": "save_016", "input": {"split": "train", "message": "לבדוק כמה תיווך בגבעתיים"}, "output": {"action": "save", "item": "לבדוק כמה תיווך בגבעתיים"}}
-{"id": "save_017", "input": {"split": "train", "message": "יוסי קשור לחוזה של הדירה"}, "output": {"action": "save", "item": "יוסי חוזה דירה"}}
-{"id": "save_018", "input": {"split": "train", "message": "לבדוק אחר כך את הקישור הזה למפות https://maps.google.com/?q=Tel+Aviv"}, "output": {"action": "save", "item": "לבדוק קישור מפות https://maps.google.com/?q=Tel+Aviv"}}
-{"id": "save_019", "input": {"split": "train", "message": "בחדר הנוסף צריך בערך 20 ממר"}, "output": {"action": "save", "item": "20 ממר לחדר נוסף"}}
-{"id": "save_020", "input": {"split": "train", "message": "שי מחר 150 שקל"}, "output": {"action": "save", "item": "שי מחר 150 שקל"}}
-{"id": "save_021", "input": {"split": "val", "message": "להביא מתנה לשי"}, "output": {"action": "save", "item": "מתנה לשי"}}
-{"id": "save_022", "input": {"split": "val", "message": "לבדוק אברול של קונטי"}, "output": {"action": "save", "item": "לבדוק אברול קונטי"}}
-{"id": "save_023", "input": {"split": "val", "message": "הכתובת היא הדס 20 בנימינה"}, "output": {"action": "save", "item": "הדס 20 בנימינה"}}
-{"id": "save_024", "input": {"split": "val", "message": "לדבר עם העוד על החוזה ביום ראשון"}, "output": {"action": "save", "item": "עו״ד חוזה יום ראשון"}}
-{"id": "save_025", "input": {"split": "val", "message": "המשכנתא היא 8500000"}, "output": {"action": "save", "item": "משכנתא 8500000"}}
-{"id": "save_026", "input": {"split": "val", "message": "עירית צריכה מיילים על הקרנות"}, "output": {"action": "save", "item": "מיילים לקרנות של עירית"}}
-{"id": "save_027", "input": {"split": "val", "message": "לראות אחר כך את הסרטון הזה https://youtube.com/watch?v=123"}, "output": {"action": "save", "item": "לראות סרטון יוטיוב https://youtube.com/watch?v=123"}}
-{"id": "save_028", "input": {"split": "val", "message": "מייבש כביסה עדיף לבן"}, "output": {"action": "save", "item": "מייבש כביסה לבן"}}
-{"id": "save_029", "input": {"split": "val", "message": "האוטו בגומא מחר בבוקר"}, "output": {"action": "save", "item": "האוטו בגומא מחר בבוקר"}}
-{"id": "save_030", "input": {"split": "val", "message": "ליוסי יש 300000 בקרנות"}, "output": {"action": "save", "item": "יוסי 300000 בקרנות"}}
-{"id": "save_031", "input": {"split": "test", "message": "עירית ביטוח יום ראשון לא לשכוח"}, "output": {"action": "save", "item": "עירית ביטוח יום ראשון"}}
-{"id": "save_032", "input": {"split": "test", "message": "לבדוק שבתון בארגון המורים"}, "output": {"action": "save", "item": "לבדוק שבתון בארגון המורים"}}
-{"id": "save_033", "input": {"split": "test", "message": "הכתובת ברמת גן היא יוסף הגלילי 22"}, "output": {"action": "save", "item": "רמת גן יוסף הגלילי 22"}}
-{"id": "save_034", "input": {"split": "test", "message": "תשלום 4200 עד סוף חודש"}, "output": {"action": "save", "item": "תשלום 4200 עד סוף חודש"}}
-{"id": "save_035", "input": {"split": "test", "message": "מיקו צריך מתנה לשישי"}, "output": {"action": "save", "item": "מתנה למיקו לשישי"}}
-{"id": "save_036", "input": {"split": "test", "message": "לשמור את הקישור של gov https://www.gov.il/he"}, "output": {"action": "save", "item": "קישור gov https://www.gov.il/he"}}
-{"id": "save_037", "input": {"split": "test", "message": "לבדוק כמה תיווך על הבית"}, "output": {"action": "save", "item": "לבדוק כמה תיווך על הבית"}}
-{"id": "save_038", "input": {"split": "test", "message": "דני ביקש מייל על החוזה"}, "output": {"action": "save", "item": "דני מייל חוזה"}}
-{"id": "save_039", "input": {"split": "test", "message": "לצבע בשלושה חדרים צריך 12 ממר"}, "output": {"action": "save", "item": "צבע 12 ממר לשלושה חדרים"}}
-{"id": "save_040", "input": {"split": "test", "message": "רואה חשבון בגבעתיים עולה 2500"}, "output": {"action": "save", "item": "רואה חשבון בגבעתיים 2500"}}
-{"id": "retrieve_001", "input": {"split": "train", "message": "מה הייתי צריך לקנות לתופים?"}, "output": {"action": "retrieve", "item": "לקנות מגבון לניקוי התופים"}}
-{"id": "retrieve_002", "input": {"split": "train", "message": "מתי מיקו מגיע?"}, "output": {"action": "retrieve", "item": "מיקו מגיע ברביעי בערב"}}
-{"id": "retrieve_003", "input": {"split": "train", "message": "מה הייתי צריך לשלוח ליוסי לגבי הקרנות?"}, "output": {"action": "retrieve", "item": "לשלוח ליוסי את המיילים של הקרנות"}}
-{"id": "retrieve_004", "input": {"split": "train", "message": "איפה השארתי את האוטו בגומא?"}, "output": {"action": "retrieve", "item": "האוטו בגומא ליד הכניסה"}}
-{"id": "retrieve_005", "input": {"split": "train", "message": "כמה כסף צריך לשמור בצד עד שהיא מוכנה?"}, "output": {"action": "retrieve", "item": "300000 לשמור בצד עד שהיא מוכנה"}}
-{"id": "retrieve_006", "input": {"split": "train", "message": "מתי הפגישה עם דני הרואה חשבון?"}, "output": {"action": "retrieve", "item": "דני הרואה חשבון מחר בעשר"}}
-{"id": "retrieve_007", "input": {"split": "train", "message": "תביא לי את הקישור למשרה בלינקדאין"}, "output": {"action": "retrieve", "item": "לבדוק משרה בלינקדאין https://www.linkedin.com/jobs/view/4403781508/"}}
-{"id": "retrieve_008", "input": {"split": "train", "message": "מה רציתי לבדוק לגבי ביטוח רכב?"}, "output": {"action": "retrieve", "item": "לבדוק כמה עולה ביטוח רכב השנה"}}
-{"id": "retrieve_009", "input": {"split": "train", "message": "מה צריך לקנות לאמא עד שישי?"}, "output": {"action": "retrieve", "item": "לקנות לאמא מתנה עד שישי"}}
-{"id": "retrieve_010", "input": {"split": "train", "message": "מה שמרתי על היטל השבחה?"}, "output": {"action": "retrieve", "item": "לברר היטל השבחה"}}
-{"id": "retrieve_011", "input": {"split": "train", "message": "איפה האוטו בשדה נחמיה?"}, "output": {"action": "retrieve", "item": "האוטו בשדה נחמיה"}}
-{"id": "retrieve_012", "input": {"split": "train", "message": "כמה יצאה הארנונה?"}, "output": {"action": "retrieve", "item": "ארנונה 2500"}}
-{"id": "retrieve_013", "input": {"split": "train", "message": "מה רציתי לעשות עם הקורות חיים בלינקדאין?"}, "output": {"action": "retrieve", "item": "לעדכן קורות חיים בלינקדאין"}}
-{"id": "retrieve_014", "input": {"split": "train", "message": "למי הייתי צריך לשלוח מייל על הביטוח?"}, "output": {"action": "retrieve", "item": "לשלוח מייל לעירית לגבי הביטוח"}}
-{"id": "retrieve_015", "input": {"split": "train", "message": "איזה צבע לקחת לחדרים?"}, "output": {"action": "retrieve", "item": "צבע לבן לחדרים"}}
-{"id": "retrieve_016", "input": {"split": "train", "message": "מה רציתי לבדוק על תיווך בגבעתיים?"}, "output": {"action": "retrieve", "item": "לבדוק כמה תיווך בגבעתיים"}}
-{"id": "retrieve_017", "input": {"split": "train", "message": "מה הקשר של יוסי לחוזה דירה?"}, "output": {"action": "retrieve", "item": "יוסי חוזה דירה"}}
-{"id": "retrieve_018", "input": {"split": "train", "message": "תמצא לי את הקישור למפות ששמרתי"}, "output": {"action": "retrieve", "item": "לבדוק קישור מפות https://maps.google.com/?q=Tel+Aviv"}}
-{"id": "retrieve_019", "input": {"split": "train", "message": "כמה ממר צריך לחדר הנוסף?"}, "output": {"action": "retrieve", "item": "20 ממר לחדר נוסף"}}
-{"id": "retrieve_020", "input": {"split": "train", "message": "מה כתבתי על שי ומחר?"}, "output": {"action": "retrieve", "item": "שי מחר 150 שקל"}}
-{"id": "retrieve_021", "input": {"split": "val", "message": "מה המתנה לשי?"}, "output": {"action": "retrieve", "item": "מתנה לשי"}}
-{"id": "retrieve_022", "input": {"split": "val", "message": "מה רציתי לבדוק על אברול קונטי?"}, "output": {"action": "retrieve", "item": "לבדוק אברול קונטי"}}
-{"id": "retrieve_023", "input": {"split": "val", "message": "מה הכתובת בבנימינה?"}, "output": {"action": "retrieve", "item": "הדס 20 בנימינה"}}
-{"id": "retrieve_024", "input": {"split": "val", "message": "מתי לדבר עם העוד על החוזה?"}, "output": {"action": "retrieve", "item": "עו״ד חוזה יום ראשון"}}
-{"id": "retrieve_025", "input": {"split": "val", "message": "כמה המשכנתא?"}, "output": {"action": "retrieve", "item": "משכנתא 8500000"}}
-{"id": "retrieve_026", "input": {"split": "val", "message": "מה עירית צריכה לגבי הקרנות?"}, "output": {"action": "retrieve", "item": "מיילים לקרנות של עירית"}}
-{"id": "retrieve_027", "input": {"split": "val", "message": "תביא לי את הקישור ליוטיוב ששמרתי"}, "output": {"action": "retrieve", "item": "לראות סרטון יוטיוב https://youtube.com/watch?v=123"}}
-{"id": "retrieve_028", "input": {"split": "val", "message": "איזה מייבש כביסה רציתי?"}, "output": {"action": "retrieve", "item": "מייבש כביסה לבן"}}
-{"id": "retrieve_029", "input": {"split": "val", "message": "איפה האוטו ומתי בגומא?"}, "output": {"action": "retrieve", "item": "האוטו בגומא מחר בבוקר"}}
-{"id": "retrieve_030", "input": {"split": "val", "message": "כמה יש ליוסי בקרנות?"}, "output": {"action": "retrieve", "item": "יוסי 300000 בקרנות"}}
-{"id": "retrieve_031", "input": {"split": "test", "message": "מה יש עם עירית והביטוח?"}, "output": {"action": "retrieve", "item": "עירית ביטוח יום ראשון"}}
-{"id": "retrieve_032", "input": {"split": "test", "message": "מה רציתי לבדוק על שבתון?"}, "output": {"action": "retrieve", "item": "לבדוק שבתון בארגון המורים"}}
-{"id": "retrieve_033", "input": {"split": "test", "message": "מה הכתובת ברמת גן?"}, "output": {"action": "retrieve", "item": "רמת גן יוסף הגלילי 22"}}
-{"id": "retrieve_034", "input": {"split": "test", "message": "כמה התשלום ועד מתי?"}, "output": {"action": "retrieve", "item": "תשלום 4200 עד סוף חודש"}}
-{"id": "retrieve_035", "input": {"split": "test", "message": "מה צריך למיקו לשישי?"}, "output": {"action": "retrieve", "item": "מתנה למיקו לשישי"}}
-{"id": "retrieve_036", "input": {"split": "test", "message": "תביא את הקישור של gov"}, "output": {"action": "retrieve", "item": "קישור gov https://www.gov.il/he"}}
-{"id": "retrieve_037", "input": {"split": "test", "message": "מה רציתי לבדוק לגבי תיווך בית?"}, "output": {"action": "retrieve", "item": "לבדוק כמה תיווך על הבית"}}
-{"id": "retrieve_038", "input": {"split": "test", "message": "מה דני ביקש לגבי החוזה?"}, "output": {"action": "retrieve", "item": "דני מייל חוזה"}}
-{"id": "retrieve_039", "input": {"split": "test", "message": "כמה ממר צריך לצבע בשלושה חדרים?"}, "output": {"action": "retrieve", "item": "צבע 12 ממר לשלושה חדרים"}}
-{"id": "retrieve_040", "input": {"split": "test", "message": "כמה עולה הרואה חשבון בגבעתיים?"}, "output": {"action": "retrieve", "item": "רואה חשבון בגבעתיים 2500"}}
+{
+  "train": [
+    {
+      "message": "שי סמבה",
+      "expected": {
+        "status": "incomplete",
+        "missing_fields": ["time", "context"]
+      }
+    },
+    {
+      "message": "מחר בבוקר יועץ נדלן",
+      "existing_memory": {
+        "anchor": "שי סמבה"
+      },
+      "expected": {
+        "status": "complete",
+        "memory": {
+          "anchor": "שי סמבה",
+          "time": "מחר בבוקר",
+          "context": "יועץ נדלן"
+        }
+      }
+    },
+    {
+      "message": "יוסי 4200",
+      "expected": {
+        "status": "incomplete",
+        "missing_fields": ["time", "context"]
+      }
+    },
+    {
+      "message": "סוף חודש תשלום דירה",
+      "existing_memory": {
+        "anchor": "יוסי 4200"
+      },
+      "expected": {
+        "status": "complete",
+        "memory": {
+          "anchor": "יוסי 4200",
+          "time": "סוף חודש",
+          "context": "תשלום דירה"
+        }
+      }
+    },
+    {
+      "message": "מיקו שישי",
+      "expected": {
+        "status": "incomplete",
+        "missing_fields": ["context"]
+      }
+    },
+    {
+      "message": "מתנת יום הולדת",
+      "existing_memory": {
+        "anchor": "מיקו",
+        "time": "שישי"
+      },
+      "expected": {
+        "status": "complete",
+        "memory": {
+          "anchor": "מיקו",
+          "time": "שישי",
+          "context": "מתנת יום הולדת"
+        }
+      }
+    },
+    {
+      "message": "דנה רופא מחר ב10",
+      "expected": {
+        "status": "complete",
+        "memory": {
+          "anchor": "דנה",
+          "time": "מחר ב10",
+          "context": "רופא"
+        }
+      }
+    },
+    {
+      "message": "ביטוח רכב שבוע הבא",
+      "expected": {
+        "status": "complete",
+        "memory": {
+          "anchor": "ביטוח רכב",
+          "time": "שבוע הבא",
+          "context": "ביטוח רכב"
+        }
+      }
+    },
+    {
+      "message": "מס הכנסה",
+      "expected": {
+        "status": "incomplete",
+        "missing_fields": ["time", "context"]
+      }
+    },
+    {
+      "message": "ראשון בבוקר להגיש דוח",
+      "existing_memory": {
+        "anchor": "מס הכנסה"
+      },
+      "expected": {
+        "status": "complete",
+        "memory": {
+          "anchor": "מס הכנסה",
+          "time": "ראשון בבוקר",
+          "context": "להגיש דוח"
+        }
+      }
+    },
+    {
+      "message": "אמא חמישי",
+      "expected": {
+        "status": "incomplete",
+        "missing_fields": ["context"]
+      }
+    },
+    {
+      "message": "ארוחת ערב",
+      "existing_memory": {
+        "anchor": "אמא",
+        "time": "חמישי"
+      },
+      "expected": {
+        "status": "complete",
+        "memory": {
+          "anchor": "אמא",
+          "time": "חמישי",
+          "context": "ארוחת ערב"
+        }
+      }
+    },
+    {
+      "message": "תור שיניים עוד חודש",
+      "expected": {
+        "status": "complete",
+        "memory": {
+          "anchor": "תור שיניים",
+          "time": "עוד חודש",
+          "context": "תור שיניים"
+        }
+      }
+    },
+    {
+      "message": "אייל חוזה",
+      "expected": {
+        "status": "incomplete",
+        "missing_fields": ["time", "context"]
+      }
+    },
+    {
+      "message": "מחר לעבור על סעיפים",
+      "existing_memory": {
+        "anchor": "אייל חוזה"
+      },
+      "expected": {
+        "status": "complete",
+        "memory": {
+          "anchor": "אייל חוזה",
+          "time": "מחר",
+          "context": "לעבור על סעיפים"
+        }
+      }
+    },
+    {
+      "message": "גן של נועה ראשון",
+      "expected": {
+        "status": "incomplete",
+        "missing_fields": ["context"]
+      }
+    },
+    {
+      "message": "אספת הורים",
+      "existing_memory": {
+        "anchor": "גן של נועה",
+        "time": "ראשון"
+      },
+      "expected": {
+        "status": "complete",
+        "memory": {
+          "anchor": "גן של נועה",
+          "time": "ראשון",
+          "context": "אספת הורים"
+        }
+      }
+    },
+    {
+      "message": "כרטיס טיסה יוון יוני",
+      "expected": {
+        "status": "complete",
+        "memory": {
+          "anchor": "כרטיס טיסה יוון",
+          "time": "יוני",
+          "context": "טיסה ליוון"
+        }
+      }
+    },
+    {
+      "message": "אופיר",
+      "expected": {
+        "status": "incomplete",
+        "missing_fields": ["time", "context"]
+      }
+    },
+    {
+      "message": "שבוע הבא לדבר על העבודה החדשה",
+      "existing_memory": {
+        "anchor": "אופיר"
+      },
+      "expected": {
+        "status": "complete",
+        "memory": {
+          "anchor": "אופיר",
+          "time": "שבוע הבא",
+          "context": "לדבר על העבודה החדשה"
+        }
+      }
+    }
+  ],
+  "test": [
+    {
+      "message": "רועי משכנתא",
+      "expected": {
+        "status": "incomplete",
+        "missing_fields": ["time", "context"]
+      }
+    },
+    {
+      "message": "מחר בערב מסמכים לבנק",
+      "existing_memory": {
+        "anchor": "רועי משכנתא"
+      },
+      "expected": {
+        "status": "complete",
+        "memory": {
+          "anchor": "רועי משכנתא",
+          "time": "מחר בערב",
+          "context": "מסמכים לבנק"
+        }
+      }
+    },
+    {
+      "message": "יובל רביעי",
+      "expected": {
+        "status": "incomplete",
+        "missing_fields": ["context"]
+      }
+    },
+    {
+      "message": "פגישה על האתר החדש",
+      "existing_memory": {
+        "anchor": "יובל",
+        "time": "רביעי"
+      },
+      "expected": {
+        "status": "complete",
+        "memory": {
+          "anchor": "יובל",
+          "time": "רביעי",
+          "context": "פגישה על האתר החדש"
+        }
+      }
+    },
+    {
+      "message": "דרכון אוגוסט",
+      "expected": {
+        "status": "complete",
+        "memory": {
+          "anchor": "דרכון",
+          "time": "אוגוסט",
+          "context": "דרכון"
+        }
+      }
+    },
+    {
+      "message": "רכב טסט",
+      "expected": {
+        "status": "incomplete",
+        "missing_fields": ["time"]
+      }
+    },
+    {
+      "message": "עוד שבועיים",
+      "existing_memory": {
+        "anchor": "רכב טסט"
+      },
+      "expected": {
+        "status": "complete",
+        "memory": {
+          "anchor": "רכב טסט",
+          "time": "עוד שבועיים",
+          "context": "טסט לרכב"
+        }
+      }
+    },
+    {
+      "message": "הילה",
+      "expected": {
+        "status": "incomplete",
+        "missing_fields": ["time", "context"]
+      }
+    },
+    {
+      "message": "ראשון בצהריים לדבר על הגן",
+      "existing_memory": {
+        "anchor": "הילה"
+      },
+      "expected": {
+        "status": "complete",
+        "memory": {
+          "anchor": "הילה",
+          "time": "ראשון בצהריים",
+          "context": "לדבר על הגן"
+        }
+      }
+    },
+    {
+      "message": "אינסטלטור מחר דחוף",
+      "expected": {
+        "status": "complete",
+        "memory": {
+          "anchor": "אינסטלטור",
+          "time": "מחר",
+          "context": "בעיה דחופה"
+        }
+      }
+    }
+  ]
+}
