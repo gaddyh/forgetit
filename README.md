@@ -1,110 +1,216 @@
 # ForgetIt
 
-ForgetIt is a dataset-first AI engineering experiment.
+ForgetIt is a dataset-first AI engineering experiment focused on one question:
 
-The project explores a simple but deep question:
+> When is a human memory fragment safe to forget?
 
-> Can an AI system learn how to turn short, messy human memory fragments into clean memory operations?
+The project explores cognitive memory completion.
 
-Instead of starting with agents, vector databases, retrieval pipelines, or orchestration frameworks, ForgetIt starts from manual cognition:
+Instead of building agents, RAG pipelines, orchestration frameworks, or chatbot infrastructure first, ForgetIt starts from manual behavioral definition:
 
 ```text
 human examples
     -> dataset
         -> metrics
             -> evaluation
-                -> DSPy optimization
-```
-
-The core idea is that before building an AI system, a human should first define the behavior space manually.
-
-Only after that does it make sense to introduce prompts, models, metrics, and optimization.
-
-## What ForgetIt Does
-
-ForgetIt currently learns one small behavior:
-
-```text
-message
-    -> action + memory item
-```
-
-The action is one of:
-
-- save
-- retrieve
-
-The item is the clean memory object.
-
-Example:
-
-```json
-{
-  "input": {
-    "message": "לא לשכוח לקנות מגבון לניקוי התופים"
-  },
-  "output": {
-    "action": "save",
-    "item": "לקנות מגבון לניקוי התופים"
-  }
-}
-```
-
-And:
-
-```json
-{
-  "input": {
-    "message": "מה הייתי צריך לקנות לתופים?"
-  },
-  "output": {
-    "action": "retrieve",
-    "item": "לקנות מגבון לניקוי התופים"
-  }
-}
-```
-
-The first message saves a memory.
-
-The second message asks to retrieve that same memory.
-
-## Why This Project Exists
-
-Most AI assistant projects begin with implementation:
-
-- chatbot UI
-- LangChain chains
-- agents
-- tools
-- memory
-- RAG
-- vector search
-
-ForgetIt starts one level earlier.
-
-It asks:
-
-> What behavior do I actually want the system to learn?
-
-The answer is encoded in the dataset.
-
-The dataset is not just training data.
-
-It is the product definition.
-
-## The Core Shift
-
-ForgetIt is built around this workflow:
-
-```text
-manual dataset
-    -> behavioral space
-        -> metrics
-            -> evaluation
                 -> optimization
 ```
 
-Not this:
+The project intentionally begins with the smallest possible cognitive layer.
+
+Not:
+
+* assistants
+* agents
+* tools
+* memory stores
+* vector databases
+* retrieval systems
+
+Instead:
+
+```text
+short messy memory fragments
+    -> usable future memory objects
+```
+
+---
+
+# Core Problem
+
+Humans naturally compress information.
+
+Examples:
+
+```text
+"שי סמבה"
+"יוסי 4200"
+"מיקו שישי"
+"ביטוח רכב שבוע הבא"
+```
+
+Humans understand these fragments because they already contain hidden context.
+
+But a useful AI memory system must answer:
+
+```text
+Will future-you understand this later?
+```
+
+That is the real task.
+
+Not extraction.
+
+Not classification.
+
+Cognitive completeness.
+
+---
+
+# Product Behavior
+
+ForgetIt currently learns one behavior:
+
+```text
+message (+ optional existing memory)
+    -> MemoryExtraction
+```
+
+The system must determine:
+
+* Is the memory complete?
+* Is it actionable or reference memory?
+* What fields are missing?
+* Can the new message complete an older partial memory?
+
+---
+
+# Examples
+
+## Incomplete Memory
+
+Input:
+
+```text
+שי סמבה
+```
+
+Expected understanding:
+
+```text
+Incomplete.
+Missing:
+- time
+- context
+```
+
+Because future-you will not understand:
+
+* when?
+* why?
+* what about Shay Samba?
+
+---
+
+## Completing Existing Memory
+
+Existing memory:
+
+```text
+שי סמבה
+```
+
+New message:
+
+```text
+מחר בבוקר יועץ נדלן
+```
+
+Expected result:
+
+```text
+Complete actionable memory:
+
+anchor: שי סמבה
+time: מחר בבוקר
+context: יועץ נדלן
+```
+
+---
+
+## Complete Memory
+
+Input:
+
+```text
+ביטוח רכב שבוע הבא
+```
+
+Expected:
+
+```text
+Complete.
+```
+
+Because future-you already understands the meaning.
+
+No additional clarification is required.
+
+---
+
+## Reference Memory
+
+Input:
+
+```text
+מאמר טוב על dspy https://example.com/dspy
+```
+
+Expected:
+
+```text
+Reference memory.
+```
+
+No future time is required.
+
+Only enough context to retrieve the information later.
+
+---
+
+# Core Insight
+
+ForgetIt discovered something important very early:
+
+```text
+Extraction is easy.
+Cognitive completeness is hard.
+```
+
+Most NLP systems stop at:
+
+* entities
+* dates
+* labels
+* intents
+* classification
+
+ForgetIt explores something deeper:
+
+```text
+Can the system determine whether future-you
+will understand the memory later?
+```
+
+That is a much harder cognitive task.
+
+---
+
+# Dataset-First Development
+
+ForgetIt is intentionally built backwards compared to most AI projects.
+
+Typical AI workflow:
 
 ```text
 prompt
@@ -112,353 +218,378 @@ prompt
         -> hope
 ```
 
-The manual dataset comes first.
+ForgetIt workflow:
 
-Metrics come second.
-
-DSPy comes later.
-
-That is the important shift.
-
-## Dataset
-
-The dataset lives in:
-
-`data/forgetit_v0.jsonl`
-
-Each row has:
-
-```json
-{
-  "id": "save_001",
-  "input": {
-    "split": "train",
-    "message": "..."
-  },
-  "output": {
-    "action": "save",
-    "item": "..."
-  }
-}
+```text
+dataset
+    -> metrics
+        -> evaluation
+            -> optimization
 ```
+
+The dataset comes first.
+
+The behavioral space is manually defined before optimization begins.
+
+Only after the task becomes measurable does DSPy enter the loop.
+
+---
+
+# Dataset
+
+The dataset consists of JSONL rows.
+
+One row per memory interaction.
 
 Current splits:
 
-- train
-- val
-- test
+```text
+train
+val
+test
+```
 
-The dataset contains two mirrored behavior families:
+Current dataset categories:
 
-- Save examples
-- Retrieve examples
+* actionable complete
+* actionable incomplete
+* actionable memory completion
+* reference complete
+* reference incomplete
+* link-based memory
+* ambiguous/tricky cases
 
-Example save row:
+Example row:
 
 ```json
 {
-  "id": "save_012",
-  "input": {
-    "split": "train",
-    "message": "הארנונה יצאה 2500"
-  },
-  "output": {
-    "action": "save",
-    "item": "ארנונה 2500"
+  "message": "שי סמבה",
+  "expected": {
+    "status": "incomplete",
+    "missing_fields": ["time", "context"]
   }
 }
 ```
 
-Example retrieve row:
+Completion example:
 
 ```json
 {
-  "id": "retrieve_012",
-  "input": {
-    "split": "train",
-    "message": "כמה יצאה הארנונה?"
+  "message": "מחר בבוקר יועץ נדלן",
+  "existing_memory": {
+    "anchor": "שי סמבה"
   },
-  "output": {
-    "action": "retrieve",
-    "item": "ארנונה 2500"
+  "expected": {
+    "status": "complete",
+    "memory": {
+      "mode": "actionable",
+      "anchor": "שי סמבה",
+      "time": "מחר בבוקר",
+      "context": "יועץ נדלן"
+    }
   }
 }
 ```
 
-This creates a small but meaningful memory behavior space.
+---
 
-The model must learn both:
+# Memory Model
 
-- Should this message save something?
-- What memory object does this message refer to?
+Current Pydantic schema:
 
-## Current Model
-
-The current DSPy program is a simple memory router.
-
-```text
-message
-    -> action
-    -> item
+```python
+class MemoryItem(BaseModel):
+    mode: Literal["actionable", "reference"]
+    anchor: str
+    time: str | None
+    context: str | None
+    link: str | None
 ```
 
-The output schema is intentionally small:
+And:
 
-```text
-action: "save" | "retrieve"
-item: str
+```python
+class MemoryExtraction(BaseModel):
+    status: Literal["complete", "incomplete"]
+    memory: MemoryItem | None
+    missing_fields: list[str]
 ```
 
-The point is not to build a full assistant yet.
+This structure intentionally stays minimal.
 
-The point is to make one cognitive layer measurable.
+The goal is not complex architecture.
 
-## Metrics
+The goal is measurable cognition.
 
-ForgetIt evaluates two different things.
+---
 
-### 1. Action Quality
+# Metrics
 
-Did the model choose the correct action?
+ForgetIt uses product-oriented metrics instead of generic NLP scoring.
 
-`save` vs `retrieve`
+Current metrics:
 
-Metrics:
+## Status Metrics
 
-- action accuracy
-- per-action precision
-- per-action recall
-- per-action F1
-- macro precision
-- macro recall
-- macro F1
+```text
+status_match
+false_complete_rate
+false_incomplete_rate
+```
 
-This measures whether the system understands the user's operation.
+These measure whether the model correctly determines:
 
-### 2. Item Quality
+```text
+safe to forget
+vs
+not safe to forget
+```
 
-Did the model produce the right memory item?
+---
 
-Metrics:
+## Missing Field Metrics
 
-- exact item accuracy
-- average token F1
-- semantic item accuracy
+```text
+missing_fields_f1
+```
 
-Exact match is strict.
+Measures whether the model correctly identifies:
 
-Token F1 is softer.
+* missing time
+* missing context
 
-Semantic accuracy uses a judge to decide whether the predicted item refers to the same memory object as the expected item.
+---
 
-This distinction matters because memory items may be phrased differently while still referring to the same thing.
+## Memory Field Metrics
+
+```text
+mode_match
+anchor_match
+time_match
+context_token_f1
+link_match
+```
+
+These measure the quality of extracted memory structure.
+
+---
+
+## Product Score
+
+ForgetIt uses a weighted product-oriented score.
+
+The score prioritizes:
+
+* avoiding dangerous false-complete memories
+* reducing overly cautious false-incomplete behavior
+* improving future-self usability
+
+This is intentionally different from simple extraction accuracy.
+
+---
+
+# DSPy Optimization
+
+ForgetIt uses DSPy only after:
+
+* dataset creation
+* metric definition
+* evaluation design
+
+Current optimizer:
+
+```text
+DSPy MIPROv2
+```
+
+Optimization objective:
+
+```text
+Improve cognitive completeness behavior.
+```
+
+Not:
+
+```text
+maximize extraction overlap
+```
+
+---
+
+# Current Results
+
+Baseline validation score:
+
+```text
+0.406
+```
+
+After DSPy optimization:
+
+```text
+0.796
+```
+
+The optimization significantly improved:
+
+* memory completion behavior
+* merging follow-up messages
+* determining usable completeness
 
 Example:
 
-```
-expected:  מתנה לשי
-predicted: המתנה לשי
-```
-
-Exact match may fail.
-
-Semantic match may pass.
-
-But if important information is missing, semantic match should fail.
-
-Example:
-
-```
-expected:  יוסי 300000 בקרנות
-predicted: יוסי בקרנות
-```
-
-This should not pass, because the amount is essential.
-
-## Evaluation
-
-Run evaluation:
-
-```bash
-python app/eval.py --split val
-```
-
-Evaluate another split:
-
-```bash
-python app/eval.py --split test
-```
-
-Evaluate all rows:
-
-```bash
-python app/eval.py --split all
-```
-
-Default dataset:
-
-`data/forgetit_v0.jsonl`
-
-The evaluation prints:
-
-- each message
-- expected output
-- predicted output
-- action metrics
-- item metrics
-
-It also saves a markdown report under:
-
-`reports/`
-
-## Optimization
-
-ForgetIt uses DSPy only after the dataset and metrics exist.
-
-Run optimization:
-
-```bash
-python app/optimize.py
-```
-
-Default behavior:
+Before optimization:
 
 ```text
-train split -> optimize
-val split   -> evaluate before/after
+"מחר בערב מסמכים לבנק"
+-> incomplete
 ```
 
-The optimizer currently uses DSPy BootstrapFewShot.
+After optimization:
 
-The compiled program is saved to:
-
-`artifacts/memory_router_bootstrap.json`
-
-This makes the project an optimization loop, not just a prompt experiment.
-
-## Project Structure
-
+```text
+-> complete actionable memory
 ```
+
+This demonstrates behavioral optimization over a cognitive dataset.
+
+---
+
+# Why This Project Is Different
+
+ForgetIt is not:
+
+* another chatbot
+* another RAG demo
+* another LangChain wrapper
+* another agent orchestration project
+
+The interesting part is:
+
+```text
+behavioral optimization over cognitive completeness
+```
+
+The system is not merely extracting information.
+
+It is learning:
+
+```text
+What information humans actually need
+in order to safely forget something.
+```
+
+---
+
+# Project Structure
+
+```text
 forgetit/
 │
 ├── app/
-│   ├── program.py       # DSPy memory router: message -> action + item
-│   ├── eval.py          # evaluation runner
-│   ├── optimize.py      # DSPy optimization loop
-│   ├── metrics.py       # action + item metrics
-│   ├── item_judge.py    # semantic item judge
-│   ├── opt_metric.py    # scalar metric for DSPy optimization
-│   └── report.py        # markdown report generation
+│   ├── memory/
+│   │   ├── models.py
+│   │   ├── program.py
+│   │   ├── metrics.py
+│   │   └── optimize.py
+│   │
+│   ├── eval.py
+│   └── optimize.py
 │
 ├── data/
-│   └── forgetit_v0.jsonl
+│   ├── save_memory_train.jsonl
+│   ├── save_memory_val.jsonl
+│   └── save_memory_test.jsonl
 │
 ├── artifacts/
-│   └── memory_router_bootstrap.json
+│   └── compiled_memory_program.json
 │
 ├── reports/
-│   └── generated evaluation reports
 │
 ├── requirements.txt
 ├── pyproject.toml
 └── README.md
 ```
 
-## Design Philosophy
+---
 
-ForgetIt is intentionally small.
+# Design Philosophy
 
-The goal is not to impress with architecture.
+ForgetIt intentionally stays small.
 
-The goal is to show a disciplined AI engineering loop:
+The goal is not architectural complexity.
 
-1. Manually define behavior
-2. Create dataset
-3. Define measurable outputs
-4. Build baseline
-5. Evaluate
-6. Analyze failure modes
-7. Optimize with DSPy
+The goal is disciplined AI engineering:
+
+1. Define behavior manually
+2. Build a dataset
+3. Define metrics
+4. Build a baseline
+5. Evaluate failures
+6. Improve metrics
+7. Optimize behavior
 8. Re-evaluate
 
-This is the opposite of building a large agent first and only later asking whether it works.
+The project treats datasets as behavioral spaces.
 
-## Current Scope
+Not merely training data.
 
-ForgetIt v0 does not yet implement:
+---
 
-- real memory storage
-- vector search
-- calendar integration
-- WhatsApp integration
-- multi-step planning
-- long-term personalization
-- agentic tool use
+# Current Scope
 
-That is intentional.
+ForgetIt v0 intentionally does NOT yet include:
 
-The current scope is narrower:
+* vector search
+* memory retrieval
+* WhatsApp integration
+* calendar integration
+* autonomous agents
+* tool calling
+* long-term personalization
+* production infrastructure
 
-> Can the system understand whether a message is saving memory or retrieving memory,
-> and can it produce the correct canonical memory item?
+Those systems may come later.
 
-Only after this layer is measurable should the system grow.
+But only after the cognitive layer becomes measurable and reliable.
 
-## Why This Matters
+---
 
-A memory assistant is not primarily a chat problem.
+# Roadmap
 
-It is a behavioral modeling problem.
+## v0.1
 
-Users write compressed fragments like:
+* stronger datasets
+* more ambiguity cases
+* improved context evaluation
+* better split balancing
 
-- "מיקו מתנה שישי"
-- "תשלום 4200 עד סוף חודש"
-- "יוסי קרנות"
+## v0.2
 
-A useful system must learn how to turn those fragments into durable, retrievable memory objects.
+* memory storage
+* retrieval evaluation
+* reference memory search
 
-ForgetIt starts by making that behavior explicit.
+## v0.3
 
-## Roadmap
+* user-specific shorthand learning
+* recurring anchor adaptation
+* personalized memory compression
 
-Possible next steps:
+## v0.4
 
-### v0.1 — Stronger Evaluation
+* WhatsApp interface
+* real-world memory ingestion
+* measurable production feedback loops
 
-- add more edge cases
-- improve split balance
-- add confusion analysis
-- compare baseline vs optimized reports
+---
 
-### v0.2 — Memory Store
+# Status
 
-- save canonical memory items
-- retrieve matching items
-- evaluate retrieval quality
+Early.
 
-### v0.3 — Context-Aware Retrieval
+But already meaningful.
 
-- retrieve from a set of saved memories
-- distinguish similar memory objects
-- measure retrieval precision and recall
+ForgetIt is becoming a measurable cognitive systems lab focused on one question:
 
-### v0.4 — Personal Shorthand Learning
-
-- learn user-specific phrasing
-- handle recurring people, places, and topics
-- adapt canonicalization over time
-
-### v0.5 — WhatsApp Interface
-
-- send notes to the system
-- ask natural questions later
-- keep the entire loop measurable
-
-## Status
-
-Early but meaningful.
-
-ForgetIt is not a production assistant yet.
-
-It is a clean AI engineering lab for building one measurable cognitive layer at a time.
+When is memory safe to forget?
