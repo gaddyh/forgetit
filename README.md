@@ -592,4 +592,4 @@ But already meaningful.
 
 ForgetIt is becoming a measurable cognitive systems lab focused on one question:
 
-When is memory safe to forget?
+**When is memory safe to forget?**
