@@ -1,310 +1,385 @@
 # ForgetIt Optimization Report
 
-## Run Summary
+## Experiment
 
-This run compares the raw `MemoryRouter` baseline against a DSPy `BootstrapFewShot` optimized version on the validation split.
+Initial DSPy optimization experiment for cognitive memory completeness.
 
-The validation set contains 20 examples:
-
-- 10 `save` examples
-- 10 `retrieve` examples
-
-The optimizer used 40 training rows and saved the compiled program to:
+Date:
 
 ```text
-artifacts/memory_router_bootstrap.json
+2026-05-19
 ```
 
-## Headline Result
+Optimizer:
 
-The optimization clearly improved the router.
+```text
+DSPy MIPROv2
+```
 
-| Metric | Baseline | Optimized | Change |
-|---|---:|---:|---:|
-| Action Accuracy | 0.7000 | 0.9000 | +0.2000 |
-| Macro Precision | 0.8125 | 0.9167 | +0.1042 |
-| Macro Recall | 0.7000 | 0.9000 | +0.2000 |
-| Macro F1 | 0.6703 | 0.8990 | +0.2287 |
-| Save Recall | 0.4000 | 0.8000 | +0.4000 |
-| Retrieve Precision | 0.6250 | 0.8333 | +0.2083 |
-| Item Exact Accuracy | 0.1000 | 0.0500 | -0.0500 |
-| Avg Token F1 | 0.5015 | 0.5090 | +0.0075 |
-| Semantic Accuracy | 0.3500 | 0.4000 | +0.0500 |
+Model:
 
-## Interpretation
+```text
+gpt-4o-mini
+```
 
-The optimization worked where it matters most right now: action routing.
+Validation set size:
 
-The baseline had a strong bias toward `retrieve`. It predicted every retrieve example correctly, but incorrectly classified 6 of 10 save examples as retrieve.
+```text
+10 rows
+```
 
-Baseline per-action behavior:
+Optimization goal:
 
-| Action | Precision | Recall | F1 |
-|---|---:|---:|---:|
-| retrieve | 0.6250 | 1.0000 | 0.7692 |
-| save | 1.0000 | 0.4000 | 0.5714 |
+```text
+Improve cognitive memory completeness behavior.
+```
 
-After optimization, that bias was reduced significantly.
+The optimization metric was intentionally product-oriented.
 
-Optimized per-action behavior:
+The system was rewarded for:
 
-| Action | Precision | Recall | F1 |
-|---|---:|---:|---:|
-| retrieve | 0.8333 | 1.0000 | 0.9091 |
-| save | 1.0000 | 0.8000 | 0.8889 |
+* correctly identifying complete memories
+* correctly identifying incomplete memories
+* merging follow-up memory messages
+* avoiding dangerous false-complete memories
 
-This is a real improvement. The model learned that many short human self-notes are saves, even when they contain action-like language.
+The system was penalized for:
 
-## What Improved
+* marking incomplete memory as complete
+* excessive false-incomplete behavior
+* weak context completion
 
-The biggest win is save recall.
+---
+
+# Baseline Validation Results
+
+Initial baseline validation average:
+
+```text
+0.406
+```
+
+Per-row baseline scores:
+
+| Row | Message                   | Score |
+| --- | ------------------------- | ----- |
+| 1   | רועי משכנתא               | 1.000 |
+| 2   | מחר בערב מסמכים לבנק      | 0.163 |
+| 3   | יובל רביעי                | 0.867 |
+| 4   | פגישה על האתר החדש        | 0.163 |
+| 5   | דרכון אוגוסט              | 0.000 |
+| 6   | רכב טסט                   | 0.867 |
+| 7   | עוד שבועיים               | 0.000 |
+| 8   | הילה                      | 1.000 |
+| 9   | ראשון בצהריים לדבר על הגן | 0.000 |
+| 10  | אינסטלטור מחר דחוף        | 0.000 |
+
+Observed baseline behavior:
+
+```text
+The model was extremely conservative.
+```
+
+Main failure mode:
+
+```text
+false incomplete
+```
+
+The model frequently refused to mark memories as complete even when enough information existed.
+
+Example:
+
+```text
+"מחר בערב מסמכים לבנק"
+```
+
+Expected:
+
+```text
+complete actionable memory
+```
+
+Baseline prediction:
+
+```text
+incomplete
+missing context
+```
+
+The system correctly extracted:
+
+* anchor
+* time
+* memory mode
+
+But still refused to finalize the memory.
+
+This revealed that the core challenge was not extraction quality.
+
+The challenge was:
+
+```text
+determining cognitive completeness
+```
+
+---
+
+# Optimization Process
+
+DSPy MIPROv2 optimization settings:
+
+```text
+num_trials: 10
+fewshot candidates: 6
+instruction candidates: 3
+```
+
+The optimizer explored combinations of:
+
+* instructions
+* bootstrapped few-shot examples
+
+The optimization metric was based on:
+
+* product_score
+* false_complete penalties
+* false_incomplete penalties
+* weighted memory field scoring
+
+---
+
+# Optimization Trials
+
+| Trial    | Score |
+| -------- | ----- |
+| Baseline | 40.58 |
+| Trial 2  | 58.93 |
+| Trial 3  | 44.46 |
+| Trial 4  | 72.22 |
+| Trial 5  | 52.96 |
+| Trial 6  | 79.61 |
+| Trial 7  | 44.46 |
+| Trial 8  | 56.33 |
+| Trial 9  | 43.04 |
+| Trial 10 | 56.33 |
+| Trial 11 | 79.61 |
+
+Best optimization score:
+
+```text
+79.61
+```
+
+Best configuration:
+
+```text
+Instruction 0
+Few-Shot Set 5
+```
+
+---
+
+# Compiled Validation Results
+
+Compiled validation average:
+
+```text
+0.796
+```
+
+Per-row compiled scores:
+
+| Row | Message                   | Score |
+| --- | ------------------------- | ----- |
+| 1   | רועי משכנתא               | 1.000 |
+| 2   | מחר בערב מסמכים לבנק      | 0.803 |
+| 3   | יובל רביעי                | 0.867 |
+| 4   | פגישה על האתר החדש        | 0.775 |
+| 5   | דרכון אוגוסט              | 0.000 |
+| 6   | רכב טסט                   | 0.867 |
+| 7   | עוד שבועיים               | 0.825 |
+| 8   | הילה                      | 1.000 |
+| 9   | ראשון בצהריים לדבר על הגן | 1.000 |
+| 10  | אינסטלטור מחר דחוף        | 0.825 |
+
+---
+
+# Improvement Analysis
+
+The optimization produced a major behavioral improvement:
+
+```text
+0.406 -> 0.796
+```
+
+Largest improvements occurred on:
+
+* follow-up completion rows
+* memory merge behavior
+* determining actionable completeness
+
+Examples:
+
+## Example 1
+
+Message:
+
+```text
+מחר בערב מסמכים לבנק
+```
 
 Baseline:
 
 ```text
-save recall = 0.4000
+0.163
 ```
 
-Optimized:
+Compiled:
 
 ```text
-save recall = 0.8000
+0.803
 ```
 
-That matters because ForgetIt is first a memory capture system. If the user sends something to remember and the router misclassifies it as retrieval, the product fails at the first step.
+The optimized system became significantly more willing to complete existing memories.
 
-The optimized model fixed several examples that the baseline got wrong:
+---
 
-| ID | Message | Baseline | Optimized |
-|---|---|---|---|
-| save_022 | לבדוק אברול של קונטי | retrieve | save |
-| save_023 | הכתובת היא הדס 20 בנימינה | retrieve | save |
-| save_024 | לדבר עם העוד על החוזה ביום ראשון | retrieve | save |
-| save_026 | עירית צריכה מיילים על הקרנות | retrieve | save |
-| save_027 | לראות אחר כך את הסרטון הזה https://youtube.com/watch?v=123 | retrieve | save |
+## Example 2
 
-This confirms the dataset is useful: it exposed a product-specific ambiguity, and bootstrapping improved it.
-
-## What Did Not Improve Enough
-
-The item field is still weak.
-
-Optimized item metrics:
+Message:
 
 ```text
-Exact Accuracy:     0.0500
-Average Token F1:   0.5090
-Semantic Accuracy:  0.4000
+ראשון בצהריים לדבר על הגן
 ```
 
-The item result improved semantically only slightly:
+Baseline:
 
 ```text
-semantic accuracy: 0.3500 -> 0.4000
+0.000
 ```
 
-This means the optimizer mainly improved the action decision, not the item normalization.
-
-There are still several item problems:
-
-### 1. Missing important details
-
-Example:
+Compiled:
 
 ```text
-expected:  לראות סרטון יוטיוב https://youtube.com/watch?v=123
-predicted: לראות אחר כך את הסרטון הזה
+1.000
 ```
 
-The optimized model correctly chose `save`, but dropped the URL. That is a serious item failure.
+This demonstrated successful memory completion merging.
 
-### 2. Returning the question instead of the memory object
+---
 
-Example:
+## Example 3
+
+Message:
 
 ```text
-message:   כמה המשכנתא?
-expected:  משכנתא 8500000
-predicted: כמה המשכנתא?
+אינסטלטור מחר דחוף
 ```
 
-The action is correct, but the item is not the remembered object.
-
-### 3. Partial retrieval target
-
-Example:
+Baseline:
 
 ```text
-expected: האוטו בגומא מחר בבוקר
-predicted: האוטו בגומא
+0.000
 ```
 
-This is close, but missing the time.
-
-### 4. Save/retrieve still confused in some cases
-
-The optimized model still misclassified two save examples:
+Compiled:
 
 ```text
-save_029: האוטו בגומא מחר בבוקר -> retrieve
-save_030: ליוסי יש 300000 בקרנות -> retrieve
+0.825
 ```
 
-This shows the router is better, but not stable yet.
-
-## Important Observation
-
-The optimization objective was binary:
+The optimizer learned that:
 
 ```text
-score = 1 only if action is correct and item semantically matches
+"דחוף"
 ```
 
-But the actual result suggests the bootstrapped demos helped the action decision more than the item construction.
+already implies meaningful future context.
 
-That is not a problem. It means the current program may be doing two jobs inside one signature:
+---
 
-1. classify action
-2. produce item
+# Remaining Failure Cases
 
-The action task is learning faster than the item task.
-
-## Judgment
-
-This is a good first optimization result.
-
-Not because the final score is high, but because the loop is now real:
+The following case still failed completely:
 
 ```text
-dataset -> baseline -> metrics -> optimization -> before/after comparison
+דרכון אוגוסט
 ```
 
-The system moved from:
+Compiled score:
 
 ```text
-unstable router with retrieve bias
+0.000
 ```
 
-to:
+This revealed an important ambiguity.
+
+Possible interpretations:
+
+* renew passport
+* check expiration
+* pickup passport
+* prepare for travel
+
+This suggests:
 
 ```text
-much better router, still weak item extraction/normalization
+dataset ambiguity still exists
 ```
 
-That is exactly what should happen in a serious eval-driven workflow.
+This is useful.
 
-## Recommended Next Step
+The evaluation system successfully exposed unstable cognitive labels.
 
-Do not jump to a larger optimizer yet.
+---
 
-First, split the metrics conceptually:
+# Key Insight
+
+The most important result was not the numerical score.
+
+The most important discovery was:
 
 ```text
-router quality = action metrics
-item quality = item semantic metric
+The optimization target shapes the cognitive behavior.
 ```
 
-Then decide whether to keep one DSPy signature or split into two modules.
+Changing the optimization metric changed:
 
-### Option A: Keep one module
+* memory completion behavior
+* willingness to finalize memories
+* handling of future-self usability
+
+The system was not merely optimizing extraction.
+
+It was optimizing:
 
 ```text
-message -> action + item
+cognitive completeness
 ```
 
-Pros:
+---
 
-- simple
-- one optimizer
-- easy to explain
+# Conclusion
 
-Cons:
+ForgetIt successfully demonstrated:
 
-- item quality may stay noisy
-- retrieval examples often require knowing what stored memory should match
+* dataset-first AI engineering
+* product-oriented evaluation
+* measurable cognitive behavior
+* DSPy behavioral optimization
+* memory completeness reasoning
 
-### Option B: Split into two modules
+The project evolved from a simple extraction task into:
 
 ```text
-MemoryActionRouter:
-message -> action
-
-MemoryItemWriter:
-message + action -> item
+behavioral optimization over future-self memory usability
 ```
 
-Pros:
+This establishes a strong foundation for future work in:
 
-- easier to optimize separately
-- cleaner metrics
-- action and item failures are isolated
-- better portfolio story
-
-Cons:
-
-- slightly more code
-- two datasets or two evaluation heads
-
-## Recommendation
-
-Stay with one module for one more run, but strengthen the item instruction.
-
-The next benchmark target should be:
-
-```text
-Action Accuracy >= 0.90
-Save Recall >= 0.90
-Item Semantic Accuracy >= 0.60
-```
-
-Current optimized result:
-
-```text
-Action Accuracy = 0.9000
-Save Recall = 0.8000
-Item Semantic Accuracy = 0.4000
-```
-
-So the next bottleneck is clearly:
-
-```text
-item quality
-```
-
-## Next Technical Move
-
-Add item-specific rules to the signature:
-
-```text
-For save:
-- keep URLs exactly
-- keep amounts exactly
-- keep dates/times if present
-- remove only filler words when safe
-
-For retrieve:
-- do not return the question
-- return the remembered object being searched for
-- preserve essential constraints: person, amount, time, location, link
-```
-
-Then rerun the same optimization.
-
-Only after that, consider `MIPROv2`.
-
-## Conclusion
-
-Step 1 succeeded: dataset.
-
-Step 2 succeeded: metrics.
-
-Step 3 succeeded partially: optimization improved action routing strongly.
-
-The project is now at the first real engineering fork:
-
-```text
-Do we optimize the single action+item program further,
-or split routing and item writing into separate measured modules?
-```
-
-My call: one more single-module optimization after improving item instructions. If item semantic accuracy remains low, split the module.
+* memory retrieval
+* shorthand personalization
+* cognitive compression
+* long-term memory systems
+* reflective assistants

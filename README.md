@@ -453,6 +453,8 @@ After optimization:
 
 This demonstrates behavioral optimization over a cognitive dataset.
 
+Full experiment details: [reports/optimize_report.md](reports/optimize_report.md)
+
 ---
 
 # Why This Project Is Different
