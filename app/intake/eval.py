@@ -6,9 +6,9 @@ from typing import Any
 import dspy
 from dotenv import load_dotenv
 
-from app.metrics import score_row, summarize
-from app.program import ExtractMemoryProgram
-from app.report import build_row_record, save_run_report
+from app.intake.metrics import score_row, summarize
+from app.intake.program import ExtractMemoryProgram
+from app.intake.report import build_row_record, save_run_report
 
 
 DATA_PATH = Path("data/save_memory_val.jsonl")

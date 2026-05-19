@@ -1,7 +1,7 @@
 import json
 import dspy
 
-from app.models import MemoryExtraction
+from app.intake.models import MemoryExtraction
 
 
 class ExtractMemorySignature(dspy.Signature):
