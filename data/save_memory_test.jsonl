@@ -1,10 +1,13 @@
-{"message":"נועה ביטוח","expected":{"status":"incomplete","missing_fields":["time","context"]}}
-{"message":"יום שני לחדש פוליסה","existing_memory":{"anchor":"נועה ביטוח"},"expected":{"status":"complete","memory":{"mode":"actionable","anchor":"נועה ביטוח","time":"יום שני","context":"לחדש פוליסה","link":null}}}
+{"message":"אורן משכנתא","expected":{"status":"incomplete","missing_fields":["time","context"]}}
+{"message":"ראשון להכין מסמכים","existing_memory":{"anchor":"אורן משכנתא"},"expected":{"status":"complete","memory":{"mode":"actionable","anchor":"אורן משכנתא","time":"ראשון","context":"להכין מסמכים","link":null},"missing_fields":[]}}
+{"message":"רופא","expected":{"status":"incomplete","missing_fields":["time","context"]}}
+{"message":"חודש הבא תור שיניים","existing_memory":{"anchor":"רופא"},"expected":{"status":"complete","memory":{"mode":"actionable","anchor":"רופא","time":"חודש הבא","context":"תור שיניים","link":null},"missing_fields":[]}}
+{"message":"מיכל","expected":{"status":"incomplete","missing_fields":["time","context"]}}
+{"message":"חמישי לעבור על חוזה","existing_memory":{"anchor":"מיכל"},"expected":{"status":"complete","memory":{"mode":"actionable","anchor":"מיכל","time":"חמישי","context":"לעבור על חוזה","link":null},"missing_fields":[]}}
+{"message":"אינסטלטור","expected":{"status":"incomplete","missing_fields":["time","context"]}}
+{"message":"מחר לבדוק נזילה","existing_memory":{"anchor":"אינסטלטור"},"expected":{"status":"complete","memory":{"mode":"actionable","anchor":"אינסטלטור","time":"מחר","context":"לבדוק נזילה","link":null},"missing_fields":[]}}
 {"message":"עומר שישי","expected":{"status":"incomplete","missing_fields":["context"]}}
-{"message":"להחזיר מצלמה","existing_memory":{"anchor":"עומר","time":"שישי"},"expected":{"status":"complete","memory":{"mode":"actionable","anchor":"עומר","time":"שישי","context":"להחזיר מצלמה","link":null}}}
-{"message":"טיסה לרומא ספטמבר","expected":{"status":"complete","memory":{"mode":"reference","anchor":"טיסה לרומא","time":"ספטמבר","context":"טיסה לרומא","link":null}}}
-{"message":"רופא שיניים","expected":{"status":"incomplete","missing_fields":["time"]}}
-{"message":"חודש הבא","existing_memory":{"anchor":"רופא שיניים"},"expected":{"status":"complete","memory":{"mode":"actionable","anchor":"רופא שיניים","time":"חודש הבא","context":"רופא שיניים","link":null}}}
-{"message":"https://react.dev useEffect","expected":{"status":"complete","memory":{"mode":"reference","anchor":"React useEffect","time":null,"context":"תיעוד useEffect","link":"https://react.dev"}}}
-{"message":"אבי חוזה","expected":{"status":"incomplete","missing_fields":["time","context"]}}
-{"message":"שלישי לעבור על סעיף 4","existing_memory":{"anchor":"אבי חוזה"},"expected":{"status":"complete","memory":{"mode":"actionable","anchor":"אבי חוזה","time":"שלישי","context":"לעבור על סעיף 4","link":null}}}
+{"message":"דירה אוגוסט","expected":{"status":"incomplete","missing_fields":["context"]}}
+{"message":"טיסה ליפן דצמבר","expected":{"status":"complete","memory":{"mode":"reference","anchor":"טיסה ליפן","time":"דצמבר","context":"טיסה ליפן","link":null},"missing_fields":[]}}
+{"message":"https://langchain.com agents","expected":{"status":"complete","memory":{"mode":"reference","anchor":"LangChain agents","time":null,"context":"מידע על LangChain agents","link":"https://langchain.com"},"missing_fields":[]}}
+{"message":"מאמר טוב על evals https://evidentlyai.com","expected":{"status":"complete","memory":{"mode":"reference","anchor":"evals","time":null,"context":"מאמר טוב על evals","link":"https://evidentlyai.com"},"missing_fields":[]}}

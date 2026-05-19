@@ -1,10 +1,13 @@
-{"message":"רועי משכנתא","expected":{"status":"incomplete","missing_fields":["time","context"]}}
-{"message":"מחר בערב מסמכים לבנק","existing_memory":{"anchor":"רועי משכנתא"},"expected":{"status":"complete","memory":{"mode":"actionable","anchor":"רועי משכנתא","time":"מחר בערב","context":"מסמכים לבנק","link":null}}}
-{"message":"יובל רביעי","expected":{"status":"incomplete","missing_fields":["context"]}}
-{"message":"פגישה על האתר החדש","existing_memory":{"anchor":"יובל","time":"רביעי"},"expected":{"status":"complete","memory":{"mode":"actionable","anchor":"יובל","time":"רביעי","context":"פגישה על האתר החדש","link":null}}}
-{"message":"דרכון אוגוסט","expected":{"status":"complete","memory":{"mode":"reference","anchor":"דרכון","time":"אוגוסט","context":"דרכון","link":null}}}
-{"message":"רכב טסט","expected":{"status":"incomplete","missing_fields":["time"]}}
-{"message":"עוד שבועיים","existing_memory":{"anchor":"רכב טסט"},"expected":{"status":"complete","memory":{"mode":"actionable","anchor":"רכב טסט","time":"עוד שבועיים","context":"טסט לרכב","link":null}}}
-{"message":"הילה","expected":{"status":"incomplete","missing_fields":["time","context"]}}
-{"message":"ראשון בצהריים לדבר על הגן","existing_memory":{"anchor":"הילה"},"expected":{"status":"complete","memory":{"mode":"actionable","anchor":"הילה","time":"ראשון בצהריים","context":"לדבר על הגן","link":null}}}
-{"message":"אינסטלטור מחר דחוף","expected":{"status":"complete","memory":{"mode":"actionable","anchor":"אינסטלטור","time":"מחר","context":"בעיה דחופה","link":null}}}
+{"message":"דני ביטוח","expected":{"status":"incomplete","missing_fields":["time","context"]}}
+{"message":"חמישי לחדש ביטוח","existing_memory":{"anchor":"דני ביטוח"},"expected":{"status":"complete","memory":{"mode":"actionable","anchor":"דני ביטוח","time":"חמישי","context":"לחדש ביטוח","link":null},"missing_fields":[]}}
+{"message":"מרפסת","expected":{"status":"incomplete","missing_fields":["time","context"]}}
+{"message":"מחר לבדוק רטיבות","existing_memory":{"anchor":"מרפסת"},"expected":{"status":"complete","memory":{"mode":"actionable","anchor":"מרפסת","time":"מחר","context":"לבדוק רטיבות","link":null},"missing_fields":[]}}
+{"message":"רועי","expected":{"status":"incomplete","missing_fields":["time","context"]}}
+{"message":"שלישי לעבור על חוזה","existing_memory":{"anchor":"רועי"},"expected":{"status":"complete","memory":{"mode":"actionable","anchor":"רועי","time":"שלישי","context":"לעבור על חוזה","link":null},"missing_fields":[]}}
+{"message":"נועה","expected":{"status":"incomplete","missing_fields":["time","context"]}}
+{"message":"רביעי לשלוח מסמכי בנק","existing_memory":{"anchor":"נועה"},"expected":{"status":"complete","memory":{"mode":"actionable","anchor":"נועה","time":"רביעי","context":"לשלוח מסמכי בנק","link":null},"missing_fields":[]}}
+{"message":"רכב","expected":{"status":"incomplete","missing_fields":["time","context"]}}
+{"message":"שבוע הבא טסט","existing_memory":{"anchor":"רכב"},"expected":{"status":"complete","memory":{"mode":"actionable","anchor":"רכב","time":"שבוע הבא","context":"טסט","link":null},"missing_fields":[]}}
+{"message":"דרכון אוגוסט","expected":{"status":"incomplete","missing_fields":["context"]}}
+{"message":"מאמר טוב על dspy https://dspy.ai","expected":{"status":"complete","memory":{"mode":"reference","anchor":"dspy","time":null,"context":"מאמר טוב על dspy","link":"https://dspy.ai"},"missing_fields":[]}}
+{"message":"https://fastapi.tiangolo.com upload","expected":{"status":"complete","memory":{"mode":"reference","anchor":"FastAPI upload","time":null,"context":"תיעוד upload ב-FastAPI","link":"https://fastapi.tiangolo.com"},"missing_fields":[]}}

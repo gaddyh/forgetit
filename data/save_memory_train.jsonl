@@ -1,20 +1,29 @@
-{"message":"שי סמבה","expected":{"status":"incomplete","missing_fields":["time","context"]}}
-{"message":"מחר בבוקר יועץ נדלן","existing_memory":{"anchor":"שי סמבה"},"expected":{"status":"complete","memory":{"mode":"actionable","anchor":"שי סמבה","time":"מחר בבוקר","context":"יועץ נדלן","link":null}}}
-{"message":"יוסי 4200","expected":{"status":"incomplete","missing_fields":["time","context"]}}
-{"message":"סוף חודש תשלום דירה","existing_memory":{"anchor":"יוסי 4200"},"expected":{"status":"complete","memory":{"mode":"actionable","anchor":"יוסי 4200","time":"סוף חודש","context":"תשלום דירה","link":null}}}
-{"message":"מיקו שישי","expected":{"status":"incomplete","missing_fields":["context"]}}
-{"message":"מתנת יום הולדת","existing_memory":{"anchor":"מיקו","time":"שישי"},"expected":{"status":"complete","memory":{"mode":"actionable","anchor":"מיקו","time":"שישי","context":"מתנת יום הולדת","link":null}}}
-{"message":"דנה רופא מחר ב10","expected":{"status":"complete","memory":{"mode":"actionable","anchor":"דנה","time":"מחר ב10","context":"רופא","link":null}}}
-{"message":"ביטוח רכב שבוע הבא","expected":{"status":"complete","memory":{"mode":"actionable","anchor":"ביטוח רכב","time":"שבוע הבא","context":"ביטוח רכב","link":null}}}
+{"message":"שי שמבה","expected":{"status":"incomplete","missing_fields":["time","context"]}}
+{"message":"חמישי יועץ נדלן","existing_memory":{"anchor":"שי שמבה"},"expected":{"status":"complete","memory":{"mode":"actionable","anchor":"שי שמבה","time":"חמישי","context":"יועץ נדלן","link":null},"missing_fields":[]}}
+{"message":"נועה ביטוח","expected":{"status":"incomplete","missing_fields":["time","context"]}}
+{"message":"יום שני לחדש פוליסה","existing_memory":{"anchor":"נועה ביטוח"},"expected":{"status":"complete","memory":{"mode":"actionable","anchor":"נועה ביטוח","time":"יום שני","context":"לחדש פוליסה","link":null},"missing_fields":[]}}
+{"message":"עומר שישי","expected":{"status":"incomplete","missing_fields":["context"]}}
+{"message":"להחזיר מצלמה","existing_memory":{"anchor":"עומר","time":"שישי"},"expected":{"status":"complete","memory":{"mode":"actionable","anchor":"עומר","time":"שישי","context":"להחזיר מצלמה","link":null},"missing_fields":[]}}
+{"message":"רופא שיניים","expected":{"status":"incomplete","missing_fields":["time"]}}
+{"message":"חודש הבא","existing_memory":{"anchor":"רופא שיניים"},"expected":{"status":"complete","memory":{"mode":"actionable","anchor":"רופא שיניים","time":"חודש הבא","context":"רופא שיניים","link":null},"missing_fields":[]}}
+{"message":"אבי חוזה","expected":{"status":"incomplete","missing_fields":["time","context"]}}
+{"message":"שלישי לעבור על סעיף 4","existing_memory":{"anchor":"אבי חוזה"},"expected":{"status":"complete","memory":{"mode":"actionable","anchor":"אבי חוזה","time":"שלישי","context":"לעבור על סעיף 4","link":null},"missing_fields":[]}}
+{"message":"סוכן","expected":{"status":"incomplete","missing_fields":["time","context"]}}
+{"message":"ראשון לדבר על הדירה","existing_memory":{"anchor":"סוכן"},"expected":{"status":"complete","memory":{"mode":"actionable","anchor":"סוכן","time":"ראשון","context":"לדבר על הדירה","link":null},"missing_fields":[]}}
+{"message":"אורית","expected":{"status":"incomplete","missing_fields":["time","context"]}}
+{"message":"עוד שבוע לשלוח מסמכים","existing_memory":{"anchor":"אורית"},"expected":{"status":"complete","memory":{"mode":"actionable","anchor":"אורית","time":"עוד שבוע","context":"לשלוח מסמכים","link":null},"missing_fields":[]}}
+{"message":"חשמל","expected":{"status":"incomplete","missing_fields":["time","context"]}}
+{"message":"מחר לבדוק קצר","existing_memory":{"anchor":"חשמל"},"expected":{"status":"complete","memory":{"mode":"actionable","anchor":"חשמל","time":"מחר","context":"לבדוק קצר","link":null},"missing_fields":[]}}
+{"message":"רכב טסט","expected":{"status":"incomplete","missing_fields":["time"]}}
+{"message":"עוד שבועיים","existing_memory":{"anchor":"רכב טסט"},"expected":{"status":"complete","memory":{"mode":"actionable","anchor":"רכב טסט","time":"עוד שבועיים","context":"טסט לרכב","link":null},"missing_fields":[]}}
+{"message":"הילה","expected":{"status":"incomplete","missing_fields":["time","context"]}}
+{"message":"ראשון בצהריים לדבר על הגן","existing_memory":{"anchor":"הילה"},"expected":{"status":"complete","memory":{"mode":"actionable","anchor":"הילה","time":"ראשון בצהריים","context":"לדבר על הגן","link":null},"missing_fields":[]}}
+{"message":"מיקו מתי מגיע","expected":{"status":"incomplete","missing_fields":["time","context"]}}
+{"message":"מחר לבדוק נזילה","existing_memory":{"anchor":"מיקו מתי מגיע"},"expected":{"status":"complete","memory":{"mode":"actionable","anchor":"מיקו מתי מגיע","time":"מחר","context":"לבדוק נזילה","link":null},"missing_fields":[]}}
 {"message":"מס הכנסה","expected":{"status":"incomplete","missing_fields":["time","context"]}}
-{"message":"ראשון בבוקר להגיש דוח","existing_memory":{"anchor":"מס הכנסה"},"expected":{"status":"complete","memory":{"mode":"actionable","anchor":"מס הכנסה","time":"ראשון בבוקר","context":"להגיש דוח","link":null}}}
-{"message":"מאמר טוב על dspy https://example.com/dspy","expected":{"status":"complete","memory":{"mode":"reference","anchor":"מאמר טוב על dspy","time":null,"context":"מאמר על dspy","link":"https://example.com/dspy"}}}
-{"message":"קישור לקורס גיטרה גאז https://example.com/jazz","expected":{"status":"complete","memory":{"mode":"reference","anchor":"קורס גיטרה גאז","time":null,"context":"קורס גיטרה גאז","link":"https://example.com/jazz"}}}
-{"message":"הסיסמה של הראוטר אצל אמא נמצאת על המדבקה מאחור","expected":{"status":"complete","memory":{"mode":"reference","anchor":"סיסמה של הראוטר אצל אמא","time":null,"context":"נמצאת על המדבקה מאחור","link":null}}}
-{"message":"מספר הזמנה איקאה 458991","expected":{"status":"complete","memory":{"mode":"reference","anchor":"מספר הזמנה איקאה","time":null,"context":"458991","link":null}}}
-{"message":"אמא חמישי","expected":{"status":"incomplete","missing_fields":["context"]}}
-{"message":"ארוחת ערב","existing_memory":{"anchor":"אמא","time":"חמישי"},"expected":{"status":"complete","memory":{"mode":"actionable","anchor":"אמא","time":"חמישי","context":"ארוחת ערב","link":null}}}
-{"message":"תור שיניים עוד חודש","expected":{"status":"complete","memory":{"mode":"actionable","anchor":"תור שיניים","time":"עוד חודש","context":"תור שיניים","link":null}}}
-{"message":"אייל חוזה","expected":{"status":"incomplete","missing_fields":["time","context"]}}
-{"message":"מחר לעבור על סעיפים","existing_memory":{"anchor":"אייל חוזה"},"expected":{"status":"complete","memory":{"mode":"actionable","anchor":"אייל חוזה","time":"מחר","context":"לעבור על סעיפים","link":null}}}
-{"message":"לבדוק את הלינק הזה","expected":{"status":"incomplete","missing_fields":["context"]}}
+{"message":"ראשון בבוקר להגיש דוח","existing_memory":{"anchor":"מס הכנסה"},"expected":{"status":"complete","memory":{"mode":"actionable","anchor":"מס הכנסה","time":"ראשון בבוקר","context":"להגיש דוח","link":null},"missing_fields":[]}}
+{"message":"דרכון אוגוסט","expected":{"status":"incomplete","missing_fields":["context"]}}
+{"message":"טיסה לרומא ספטמבר","expected":{"status":"complete","memory":{"mode":"reference","anchor":"טיסה לרומא","time":"ספטמבר","context":"טיסה לרומא","link":null},"missing_fields":[]}}
+{"message":"https://react.dev useEffect","expected":{"status":"complete","memory":{"mode":"reference","anchor":"React useEffect","time":null,"context":"תיעוד useEffect","link":"https://react.dev"},"missing_fields":[]}}
+{"message":"פוסט טוב על evaluation https://evidentlyai.com","expected":{"status":"complete","memory":{"mode":"reference","anchor":"evaluation","time":null,"context":"פוסט טוב על evaluation","link":"https://evidentlyai.com"},"missing_fields":[]}}
+{"message":"מאמר טוב על dspy https://dspy.ai","expected":{"status":"complete","memory":{"mode":"reference","anchor":"dspy","time":null,"context":"מאמר טוב על dspy","link":"https://dspy.ai"},"missing_fields":[]}}
