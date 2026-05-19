@@ -233,6 +233,8 @@ The behavioral space is manually defined before optimization begins.
 
 Only after the task becomes measurable does DSPy enter the loop.
 
+**The behavior is not in the prompt. The behavior is in the dataset and metric.**
+
 ---
 
 # Dataset
