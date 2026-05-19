@@ -1,0 +1,14 @@
+{
+  "status_match": 0.4,
+  "false_complete_rate": 0.0,
+  "false_incomplete_rate": 0.6,
+  "missing_fields_f1": 0.8333333333333333,
+  "mode_match": 1.0,
+  "anchor_match": 1.0,
+  "time_match": 1.0,
+  "context_exact_match": 0.0,
+  "context_token_f1": 0.0,
+  "link_match": 1.0,
+  "memory_field_score": 0.65,
+  "product_score": 0.43833333333333335
+}

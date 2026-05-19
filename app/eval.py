@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 
 from app.metrics import score_row, summarize
 from app.program import ExtractMemoryProgram
+from app.report import build_row_record, save_run_report
 
 
 DATA_PATH = Path("data/save_memory_val.jsonl")
@@ -54,6 +55,7 @@ def run_eval(path: Path = DATA_PATH) -> None:
     rows = load_jsonl(path)
 
     results = []
+    row_records = []
 
     for i, row in enumerate(rows, start=1):
         message = row["message"]
@@ -68,6 +70,14 @@ def run_eval(path: Path = DATA_PATH) -> None:
         predicted = to_plain_dict(prediction)
         metrics = score_row(expected, predicted)
         results.append(metrics)
+        row_records.append(
+            build_row_record(
+                index=i,
+                row=row,
+                predicted=predicted,
+                metrics=metrics,
+            )
+        )
 
         print("=" * 80)
         print(f"ROW {i}")
@@ -87,7 +97,22 @@ def run_eval(path: Path = DATA_PATH) -> None:
 
     print("=" * 80)
     print("SUMMARY")
-    print(json.dumps(summarize(results), ensure_ascii=False, indent=2))
+    summary = summarize(results)
+    print(json.dumps(summary, ensure_ascii=False, indent=2))
+
+    run_dir = save_run_report(
+        run_id=None,
+        title="ForgetIt Evaluation Report",
+        dataset_path=path,
+        row_records=row_records,
+        summary=summary,
+        notes=[
+            "Baseline evaluation run.",
+            "Row metrics use product-oriented cognitive memory completeness scoring.",
+        ],
+    )
+
+    print(f"Saved report to: {run_dir / 'report.md'}")
 
 
 if __name__ == "__main__":

@@ -1,217 +1,251 @@
-from __future__ import annotations
-
-import datetime
-from dataclasses import dataclass
+import csv
+import json
+from dataclasses import asdict, is_dataclass
+from datetime import datetime
 from pathlib import Path
 from typing import Any
 
-from app.metrics import EvalMetrics
+
+METRIC_FIELDS = [
+    "status_match",
+    "false_complete",
+    "false_incomplete",
+    "missing_fields_f1",
+    "mode_match",
+    "anchor_match",
+    "time_match",
+    "context_exact_match",
+    "context_token_f1",
+    "link_match",
+    "memory_field_score",
+    "product_score",
+]
 
 
-@dataclass
-class RowResult:
-    id: str
-    message: str
-    expected_action: str
-    expected_item: str
-    predicted_action: str
-    predicted_item: str
+def create_run_dir(run_id: str | None = None, base_dir: str | Path = "artifacts") -> Path:
+    if run_id is None:
+        run_id = datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    run_dir = Path(base_dir) / run_id
+    run_dir.mkdir(parents=True, exist_ok=True)
+    return run_dir
 
 
-def make_run_id() -> str:
-    return datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+def to_jsonable(value: Any) -> Any:
+    if value is None:
+        return None
+
+    if hasattr(value, "model_dump"):
+        return value.model_dump()
+
+    if is_dataclass(value):
+        return asdict(value)
+
+    if isinstance(value, dict):
+        return {k: to_jsonable(v) for k, v in value.items()}
+
+    if isinstance(value, list):
+        return [to_jsonable(v) for v in value]
+
+    return value
 
 
-def _metrics_block(metrics: EvalMetrics) -> str:
-    lines: list[str] = []
+def format_metric(value: Any) -> str:
+    if value is None:
+        return ""
+    if isinstance(value, float):
+        return f"{value:.3f}"
+    return str(value)
 
-    lines += [
-        "**Overall**",
-        "",
-        "| Metric | Value |",
-        "|---|---|",
-        f"| Total | {metrics.total} |",
-        f"| Action Accuracy | {metrics.action_accuracy:.4f} |",
-        f"| Macro Precision | {metrics.macro_precision:.4f} |",
-        f"| Macro Recall | {metrics.macro_recall:.4f} |",
-        f"| Macro F1 | {metrics.macro_f1:.4f} |",
-        "",
-        "**Per Action**",
-        "",
-        "| Action | TP | FP | FN | Precision | Recall | F1 |",
-        "|---|---|---|---|---|---|---|",
+
+def build_row_record(
+    index: int,
+    row: dict[str, Any],
+    predicted: dict[str, Any],
+    metrics: Any,
+    score: float | None = None,
+) -> dict[str, Any]:
+    expected = row["expected"]
+
+    record = {
+        "row": index,
+        "message": row["message"],
+        "existing_memory": row.get("existing_memory"),
+        "expected": expected,
+        "predicted": predicted,
+        "score": score if score is not None else getattr(metrics, "product_score", None),
+        "metrics": to_jsonable(metrics),
+    }
+
+    return record
+
+
+def save_json(path: Path, value: Any) -> None:
+    path.write_text(
+        json.dumps(to_jsonable(value), ensure_ascii=False, indent=2),
+        encoding="utf-8",
+    )
+
+
+def save_row_metrics_csv(path: Path, row_records: list[dict[str, Any]]) -> None:
+    fieldnames = [
+        "row",
+        "message",
+        "expected_status",
+        "predicted_status",
+        "score",
+        *METRIC_FIELDS,
     ]
 
-    for a in metrics.per_action:
-        lines.append(
-            f"| {a.action} | {a.tp} | {a.fp} | {a.fn} "
-            f"| {a.precision:.4f} | {a.recall:.4f} | {a.f1:.4f} |"
-        )
+    with path.open("w", encoding="utf-8", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer.writeheader()
 
-    lines += [
-        "",
-        "**Item**",
-        "",
-        "| Metric | Value |",
-        "|---|---|",
-        f"| Exact Matches | {metrics.item.exact_matches} / {metrics.item.total} |",
-        f"| Exact Accuracy | {metrics.item.exact_accuracy:.4f} |",
-        f"| Average Token F1 | {metrics.item.avg_token_f1:.4f} |",
-    ]
+        for record in row_records:
+            expected = record["expected"]
+            predicted = record["predicted"]
+            metrics = record["metrics"]
 
-    if metrics.item.semantic_accuracy is not None:
-        lines += [
-            f"| Semantic Matches | {metrics.item.semantic_matches} / {metrics.item.total} |",
-            f"| Semantic Accuracy | {metrics.item.semantic_accuracy:.4f} |",
-        ]
-
-    return "\n".join(lines)
+            writer.writerow(
+                {
+                    "row": record["row"],
+                    "message": record["message"],
+                    "expected_status": expected.get("status"),
+                    "predicted_status": predicted.get("status"),
+                    "score": format_metric(record["score"]),
+                    **{
+                        field: format_metric(metrics.get(field))
+                        for field in METRIC_FIELDS
+                    },
+                }
+            )
 
 
-def _rows_table(rows: list[RowResult]) -> str:
-    lines = [
-        "| ID | Message | Expected Action | Predicted Action | Expected Item | Predicted Item |",
-        "|---|---|---|---|---|---|",
-    ]
+def save_summary_csv(path: Path, summary: dict[str, float]) -> None:
+    with path.open("w", encoding="utf-8", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=["metric", "value"])
+        writer.writeheader()
+
+        for key, value in summary.items():
+            writer.writerow({"metric": key, "value": format_metric(value)})
+
+
+def markdown_table(headers: list[str], rows: list[list[Any]]) -> str:
+    lines = []
+    lines.append("| " + " | ".join(headers) + " |")
+    lines.append("| " + " | ".join(["---"] * len(headers)) + " |")
 
     for row in rows:
-        action_ok = row.expected_action == row.predicted_action
-        predicted_action = row.predicted_action if action_ok else f"**{row.predicted_action}**"
-        lines.append(
-            f"| {row.id} | {row.message} | {row.expected_action} "
-            f"| {predicted_action} | {row.expected_item} | {row.predicted_item} |"
-        )
+        lines.append("| " + " | ".join(format_metric(v) for v in row) + " |")
 
     return "\n".join(lines)
 
 
-def render_eval_report(
+def save_markdown_report(
+    path: Path,
+    *,
+    title: str,
     run_id: str,
     dataset_path: str,
-    split: str,
-    model: str,
-    rows: list[RowResult],
-    metrics: EvalMetrics,
-) -> str:
-    sections: list[str] = [
-        "# Eval Report",
-        "",
-        f"Run: `{run_id}`",
-        f"Dataset: `{dataset_path}`",
-        f"Split: `{split}`",
-        f"Model: `{model}`",
-        "",
-        "---",
-        "",
-        "## Metrics",
-        "",
-        _metrics_block(metrics),
-        "",
-        "---",
-        "",
-        "## Results",
-        "",
-        _rows_table(rows),
-    ]
+    row_records: list[dict[str, Any]],
+    summary: dict[str, float],
+    notes: list[str] | None = None,
+) -> None:
+    row_table = markdown_table(
+        [
+            "Row",
+            "Message",
+            "Expected",
+            "Predicted",
+            "Score",
+            "Status",
+            "False Complete",
+            "False Incomplete",
+            "Missing F1",
+            "Context F1",
+            "Product",
+        ],
+        [
+            [
+                r["row"],
+                r["message"],
+                r["expected"].get("status"),
+                r["predicted"].get("status"),
+                r["score"],
+                r["metrics"].get("status_match"),
+                r["metrics"].get("false_complete"),
+                r["metrics"].get("false_incomplete"),
+                r["metrics"].get("missing_fields_f1"),
+                r["metrics"].get("context_token_f1"),
+                r["metrics"].get("product_score"),
+            ]
+            for r in row_records
+        ],
+    )
 
-    return "\n".join(sections)
+    summary_table = markdown_table(
+        ["Metric", "Value"],
+        [[key, value] for key, value in summary.items()],
+    )
 
+    notes_text = ""
+    if notes:
+        notes_text = "\n\n## Notes\n\n" + "\n".join(f"- {note}" for note in notes)
 
-def render_optimize_report(
-    run_id: str,
-    dataset_path: str,
-    train_split: str,
-    eval_split: str,
-    model: str,
-    optimizer: str,
-    max_bootstrapped_demos: int,
-    max_labeled_demos: int,
-    artifact_path: str,
-    baseline_rows: list[RowResult],
-    baseline_metrics: EvalMetrics,
-    optimized_rows: list[RowResult],
-    optimized_metrics: EvalMetrics,
-) -> str:
-    delta_action = optimized_metrics.action_accuracy - baseline_metrics.action_accuracy
-    delta_exact = optimized_metrics.item.exact_accuracy - baseline_metrics.item.exact_accuracy
-    delta_token_f1 = optimized_metrics.item.avg_token_f1 - baseline_metrics.item.avg_token_f1
+    content = f"""# {title}
 
-    delta_semantic = None
-    if (
-        optimized_metrics.item.semantic_accuracy is not None
-        and baseline_metrics.item.semantic_accuracy is not None
-    ):
-        delta_semantic = optimized_metrics.item.semantic_accuracy - baseline_metrics.item.semantic_accuracy
+**Run ID:** `{run_id}`
 
-    def fmt_delta(v: float) -> str:
-        return f"+{v:.4f}" if v >= 0 else f"{v:.4f}"
+**Dataset:** `{dataset_path}`
 
-    delta_rows = [
-        "| Metric | Baseline | Optimized | Delta |",
-        "|---|---|---|---|",
-        f"| Action Accuracy | {baseline_metrics.action_accuracy:.4f} | {optimized_metrics.action_accuracy:.4f} | {fmt_delta(delta_action)} |",
-        f"| Exact Accuracy | {baseline_metrics.item.exact_accuracy:.4f} | {optimized_metrics.item.exact_accuracy:.4f} | {fmt_delta(delta_exact)} |",
-        f"| Avg Token F1 | {baseline_metrics.item.avg_token_f1:.4f} | {optimized_metrics.item.avg_token_f1:.4f} | {fmt_delta(delta_token_f1)} |",
-    ]
+**Rows:** {len(row_records)}
 
-    if delta_semantic is not None:
-        delta_rows.append(
-            f"| Semantic Accuracy | {baseline_metrics.item.semantic_accuracy:.4f} "
-            f"| {optimized_metrics.item.semantic_accuracy:.4f} | {fmt_delta(delta_semantic)} |"
-        )
+## Row-Level Metrics
 
-    sections: list[str] = [
-        "# Optimize Report",
-        "",
-        f"Run: `{run_id}`",
-        f"Dataset: `{dataset_path}`",
-        f"Train split: `{train_split}`",
-        f"Eval split: `{eval_split}`",
-        f"Model: `{model}`",
-        f"Optimizer: `{optimizer}`",
-        f"max_bootstrapped_demos: `{max_bootstrapped_demos}`",
-        f"max_labeled_demos: `{max_labeled_demos}`",
-        f"Artifact: `{artifact_path}`",
-        "",
-        "---",
-        "",
-        "## Baseline",
-        "",
-        _metrics_block(baseline_metrics),
-        "",
-        "---",
-        "",
-        "## Optimized",
-        "",
-        _metrics_block(optimized_metrics),
-        "",
-        "---",
-        "",
-        "## Delta",
-        "",
-        "\n".join(delta_rows),
-        "",
-        "---",
-        "",
-        "## Baseline Results",
-        "",
-        _rows_table(baseline_rows),
-        "",
-        "---",
-        "",
-        "## Optimized Results",
-        "",
-        _rows_table(optimized_rows),
-    ]
+{row_table}
 
-    return "\n".join(sections)
+## Summary Metrics
+
+{summary_table}
+
+## Artifacts
+
+- `rows.json`
+- `summary.json`
+- `row_metrics.csv`
+- `summary.csv`
+- `report.md`
+{notes_text}
+"""
+
+    path.write_text(content, encoding="utf-8")
 
 
-def save_report(run_id: str, content: str, filename: str = "optimize_report.md") -> Path:
-    run_dir = Path("artifacts") / run_id
-    run_dir.mkdir(parents=True, exist_ok=True)
+def save_run_report(
+    *,
+    run_id: str | None,
+    title: str,
+    dataset_path: str | Path,
+    row_records: list[dict[str, Any]],
+    summary: dict[str, float],
+    notes: list[str] | None = None,
+    base_dir: str | Path = "artifacts",
+) -> Path:
+    run_dir = create_run_dir(run_id=run_id, base_dir=base_dir)
 
-    report_path = run_dir / filename
-    report_path.write_text(content, encoding="utf-8")
+    save_json(run_dir / "rows.json", row_records)
+    save_json(run_dir / "summary.json", summary)
+    save_row_metrics_csv(run_dir / "row_metrics.csv", row_records)
+    save_summary_csv(run_dir / "summary.csv", summary)
 
-    return report_path
+    save_markdown_report(
+        run_dir / "report.md",
+        title=title,
+        run_id=run_dir.name,
+        dataset_path=str(dataset_path),
+        row_records=row_records,
+        summary=summary,
+        notes=notes,
+    )
+
+    return run_dir

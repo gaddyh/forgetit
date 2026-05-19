@@ -1,0 +1,392 @@
+[
+  {
+    "row": 1,
+    "message": "רועי משכנתא",
+    "existing_memory": null,
+    "expected": {
+      "status": "incomplete",
+      "missing_fields": [
+        "time",
+        "context"
+      ]
+    },
+    "predicted": {
+      "status": "incomplete",
+      "memory": null,
+      "missing_fields": [
+        "time",
+        "context"
+      ]
+    },
+    "score": 1.0,
+    "metrics": {
+      "status_match": 1.0,
+      "false_complete": 0.0,
+      "false_incomplete": 0.0,
+      "missing_fields_f1": 1.0,
+      "mode_match": null,
+      "anchor_match": null,
+      "time_match": null,
+      "context_exact_match": null,
+      "context_token_f1": null,
+      "link_match": null,
+      "memory_field_score": null,
+      "product_score": 1.0
+    }
+  },
+  {
+    "row": 2,
+    "message": "מחר בערב מסמכים לבנק",
+    "existing_memory": {
+      "anchor": "רועי משכנתא"
+    },
+    "expected": {
+      "status": "complete",
+      "memory": {
+        "mode": "actionable",
+        "anchor": "רועי משכנתא",
+        "time": "מחר בערב",
+        "context": "מסמכים לבנק",
+        "link": null
+      }
+    },
+    "predicted": {
+      "status": "complete",
+      "memory": {
+        "mode": "actionable",
+        "anchor": "מסמכים לבנק",
+        "time": "מחר בערב",
+        "context": "מסמכים שצריך להגיש לבנק לרועי בעניין המשכנתא.",
+        "link": null
+      },
+      "missing_fields": []
+    },
+    "score": 0.8027777777777778,
+    "metrics": {
+      "status_match": 1.0,
+      "false_complete": 0.0,
+      "false_incomplete": 0.0,
+      "missing_fields_f1": null,
+      "mode_match": 1.0,
+      "anchor_match": 0.0,
+      "time_match": 1.0,
+      "context_exact_match": 0.0,
+      "context_token_f1": 0.4444444444444445,
+      "link_match": 1.0,
+      "memory_field_score": 0.6055555555555555,
+      "product_score": 0.8027777777777778
+    }
+  },
+  {
+    "row": 3,
+    "message": "יובל רביעי",
+    "existing_memory": null,
+    "expected": {
+      "status": "incomplete",
+      "missing_fields": [
+        "context"
+      ]
+    },
+    "predicted": {
+      "status": "incomplete",
+      "memory": null,
+      "missing_fields": [
+        "time",
+        "context"
+      ]
+    },
+    "score": 0.8666666666666667,
+    "metrics": {
+      "status_match": 1.0,
+      "false_complete": 0.0,
+      "false_incomplete": 0.0,
+      "missing_fields_f1": 0.6666666666666666,
+      "mode_match": null,
+      "anchor_match": null,
+      "time_match": null,
+      "context_exact_match": null,
+      "context_token_f1": null,
+      "link_match": null,
+      "memory_field_score": null,
+      "product_score": 0.8666666666666667
+    }
+  },
+  {
+    "row": 4,
+    "message": "פגישה על האתר החדש",
+    "existing_memory": {
+      "anchor": "יובל",
+      "time": "רביעי"
+    },
+    "expected": {
+      "status": "complete",
+      "memory": {
+        "mode": "actionable",
+        "anchor": "יובל",
+        "time": "רביעי",
+        "context": "פגישה על האתר החדש",
+        "link": null
+      }
+    },
+    "predicted": {
+      "status": "complete",
+      "memory": {
+        "mode": "actionable",
+        "anchor": "פגישה על האתר החדש",
+        "time": "רביעי",
+        "context": "פגישה עם יובל",
+        "link": null
+      },
+      "missing_fields": []
+    },
+    "score": 0.7749999999999999,
+    "metrics": {
+      "status_match": 1.0,
+      "false_complete": 0.0,
+      "false_incomplete": 0.0,
+      "missing_fields_f1": null,
+      "mode_match": 1.0,
+      "anchor_match": 0.0,
+      "time_match": 1.0,
+      "context_exact_match": 0.0,
+      "context_token_f1": 0.28571428571428575,
+      "link_match": 1.0,
+      "memory_field_score": 0.5499999999999999,
+      "product_score": 0.7749999999999999
+    }
+  },
+  {
+    "row": 5,
+    "message": "דרכון אוגוסט",
+    "existing_memory": null,
+    "expected": {
+      "status": "complete",
+      "memory": {
+        "mode": "reference",
+        "anchor": "דרכון",
+        "time": "אוגוסט",
+        "context": "דרכון",
+        "link": null
+      }
+    },
+    "predicted": {
+      "status": "incomplete",
+      "memory": null,
+      "missing_fields": [
+        "time",
+        "context"
+      ]
+    },
+    "score": 0.0,
+    "metrics": {
+      "status_match": 0.0,
+      "false_complete": 0.0,
+      "false_incomplete": 1.0,
+      "missing_fields_f1": null,
+      "mode_match": null,
+      "anchor_match": null,
+      "time_match": null,
+      "context_exact_match": null,
+      "context_token_f1": null,
+      "link_match": null,
+      "memory_field_score": null,
+      "product_score": 0.0
+    }
+  },
+  {
+    "row": 6,
+    "message": "רכב טסט",
+    "existing_memory": null,
+    "expected": {
+      "status": "incomplete",
+      "missing_fields": [
+        "time"
+      ]
+    },
+    "predicted": {
+      "status": "incomplete",
+      "memory": null,
+      "missing_fields": [
+        "time",
+        "context"
+      ]
+    },
+    "score": 0.8666666666666667,
+    "metrics": {
+      "status_match": 1.0,
+      "false_complete": 0.0,
+      "false_incomplete": 0.0,
+      "missing_fields_f1": 0.6666666666666666,
+      "mode_match": null,
+      "anchor_match": null,
+      "time_match": null,
+      "context_exact_match": null,
+      "context_token_f1": null,
+      "link_match": null,
+      "memory_field_score": null,
+      "product_score": 0.8666666666666667
+    }
+  },
+  {
+    "row": 7,
+    "message": "עוד שבועיים",
+    "existing_memory": {
+      "anchor": "רכב טסט"
+    },
+    "expected": {
+      "status": "complete",
+      "memory": {
+        "mode": "actionable",
+        "anchor": "רכב טסט",
+        "time": "עוד שבועיים",
+        "context": "טסט לרכב",
+        "link": null
+      }
+    },
+    "predicted": {
+      "status": "complete",
+      "memory": {
+        "mode": "actionable",
+        "anchor": "רכב טסט",
+        "time": "עוד שבועיים",
+        "context": "Reminder for car testing in two weeks.",
+        "link": null
+      },
+      "missing_fields": []
+    },
+    "score": 0.825,
+    "metrics": {
+      "status_match": 1.0,
+      "false_complete": 0.0,
+      "false_incomplete": 0.0,
+      "missing_fields_f1": null,
+      "mode_match": 1.0,
+      "anchor_match": 1.0,
+      "time_match": 1.0,
+      "context_exact_match": 0.0,
+      "context_token_f1": 0.0,
+      "link_match": 1.0,
+      "memory_field_score": 0.65,
+      "product_score": 0.825
+    }
+  },
+  {
+    "row": 8,
+    "message": "הילה",
+    "existing_memory": null,
+    "expected": {
+      "status": "incomplete",
+      "missing_fields": [
+        "time",
+        "context"
+      ]
+    },
+    "predicted": {
+      "status": "incomplete",
+      "memory": null,
+      "missing_fields": [
+        "time",
+        "context"
+      ]
+    },
+    "score": 1.0,
+    "metrics": {
+      "status_match": 1.0,
+      "false_complete": 0.0,
+      "false_incomplete": 0.0,
+      "missing_fields_f1": 1.0,
+      "mode_match": null,
+      "anchor_match": null,
+      "time_match": null,
+      "context_exact_match": null,
+      "context_token_f1": null,
+      "link_match": null,
+      "memory_field_score": null,
+      "product_score": 1.0
+    }
+  },
+  {
+    "row": 9,
+    "message": "ראשון בצהריים לדבר על הגן",
+    "existing_memory": {
+      "anchor": "הילה"
+    },
+    "expected": {
+      "status": "complete",
+      "memory": {
+        "mode": "actionable",
+        "anchor": "הילה",
+        "time": "ראשון בצהריים",
+        "context": "לדבר על הגן",
+        "link": null
+      }
+    },
+    "predicted": {
+      "status": "complete",
+      "memory": {
+        "mode": "actionable",
+        "anchor": "הילה",
+        "time": "ראשון בצהריים",
+        "context": "לדבר על הגן",
+        "link": null
+      },
+      "missing_fields": []
+    },
+    "score": 1.0,
+    "metrics": {
+      "status_match": 1.0,
+      "false_complete": 0.0,
+      "false_incomplete": 0.0,
+      "missing_fields_f1": null,
+      "mode_match": 1.0,
+      "anchor_match": 1.0,
+      "time_match": 1.0,
+      "context_exact_match": 1.0,
+      "context_token_f1": 1.0,
+      "link_match": 1.0,
+      "memory_field_score": 1.0,
+      "product_score": 1.0
+    }
+  },
+  {
+    "row": 10,
+    "message": "אינסטלטור מחר דחוף",
+    "existing_memory": null,
+    "expected": {
+      "status": "complete",
+      "memory": {
+        "mode": "actionable",
+        "anchor": "אינסטלטור",
+        "time": "מחר",
+        "context": "בעיה דחופה",
+        "link": null
+      }
+    },
+    "predicted": {
+      "status": "complete",
+      "memory": {
+        "mode": "actionable",
+        "anchor": "אינסטלטור",
+        "time": "מחר",
+        "context": "צריך אינסטלטור מחר לביצוע עבודה דחופה.",
+        "link": null
+      },
+      "missing_fields": []
+    },
+    "score": 0.825,
+    "metrics": {
+      "status_match": 1.0,
+      "false_complete": 0.0,
+      "false_incomplete": 0.0,
+      "missing_fields_f1": null,
+      "mode_match": 1.0,
+      "anchor_match": 1.0,
+      "time_match": 1.0,
+      "context_exact_match": 0.0,
+      "context_token_f1": 0.0,
+      "link_match": 1.0,
+      "memory_field_score": 0.65,
+      "product_score": 0.825
+    }
+  }
+]

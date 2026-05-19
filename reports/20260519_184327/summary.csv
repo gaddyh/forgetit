@@ -1,0 +1,13 @@
+metric,value
+status_match,0.400
+false_complete_rate,0.000
+false_incomplete_rate,0.600
+missing_fields_f1,0.833
+mode_match,1.000
+anchor_match,1.000
+time_match,1.000
+context_exact_match,0.000
+context_token_f1,0.000
+link_match,1.000
+memory_field_score,0.650
+product_score,0.438

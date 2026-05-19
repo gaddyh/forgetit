@@ -1,0 +1,11 @@
+row,message,expected_status,predicted_status,score,status_match,false_complete,false_incomplete,missing_fields_f1,mode_match,anchor_match,time_match,context_exact_match,context_token_f1,link_match,memory_field_score,product_score
+1,רועי משכנתא,incomplete,incomplete,1.000,1.000,0.000,0.000,1.000,,,,,,,,1.000
+2,מחר בערב מסמכים לבנק,complete,incomplete,0.163,0.000,0.000,1.000,,1.000,1.000,1.000,0.000,0.000,1.000,0.650,0.325
+3,יובל רביעי,incomplete,incomplete,0.867,1.000,0.000,0.000,0.667,,,,,,,,0.867
+4,פגישה על האתר החדש,complete,incomplete,0.163,0.000,0.000,1.000,,1.000,1.000,1.000,0.000,0.000,1.000,0.650,0.325
+5,דרכון אוגוסט,complete,incomplete,0.000,0.000,0.000,1.000,,,,,,,,,0.000
+6,רכב טסט,incomplete,incomplete,0.867,1.000,0.000,0.000,0.667,,,,,,,,0.867
+7,עוד שבועיים,complete,incomplete,0.000,0.000,0.000,1.000,,,,,,,,,0.000
+8,הילה,incomplete,incomplete,1.000,1.000,0.000,0.000,1.000,,,,,,,,1.000
+9,ראשון בצהריים לדבר על הגן,complete,incomplete,0.000,0.000,0.000,1.000,,,,,,,,,0.000
+10,אינסטלטור מחר דחוף,complete,incomplete,0.000,0.000,0.000,1.000,,,,,,,,,0.000

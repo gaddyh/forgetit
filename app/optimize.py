@@ -6,8 +6,9 @@ from typing import Any
 import dspy
 from dotenv import load_dotenv
 
-from app.metrics import score_row
+from app.metrics import score_row, summarize
 from app.program import ExtractMemoryProgram
+from app.report import build_row_record, save_run_report
 
 
 TRAIN_PATH = Path("data/save_memory_train.jsonl")
@@ -89,8 +90,12 @@ def memory_optimization_metric(example: dspy.Example, pred: Any, trace=None) -> 
     return metrics.product_score
 
 
-def evaluate_program(program: dspy.Module, examples: list[dspy.Example], label: str) -> None:
+def evaluate_program(
+    program: dspy.Module, examples: list[dspy.Example], label: str
+) -> tuple[list, list]:
     scores = []
+    row_records = []
+    results = []
 
     print("=" * 80)
     print(label)
@@ -104,12 +109,34 @@ def evaluate_program(program: dspy.Module, examples: list[dspy.Example], label: 
         score = memory_optimization_metric(example, pred)
         scores.append(score)
 
+        try:
+            if hasattr(pred, "extraction"):
+                predicted = to_plain_dict(pred.extraction)
+            else:
+                predicted = to_plain_dict(pred)
+        except Exception:
+            predicted = {}
+
+        metrics_obj = score_row(example.expected, predicted)
+        results.append(metrics_obj)
+
+        row = {
+            "message": example.message,
+            "existing_memory": example.existing_memory,
+            "expected": example.expected,
+        }
+        row_records.append(
+            build_row_record(index=i, row=row, predicted=predicted, metrics=metrics_obj, score=score)
+        )
+
         print(f"ROW {i}: {score:.3f} | {example.message}")
 
     avg = sum(scores) / len(scores) if scores else 0.0
 
     print("-" * 80)
     print(f"{label} AVG: {avg:.3f}")
+
+    return row_records, results
 
 
 def main() -> None:
@@ -123,7 +150,16 @@ def main() -> None:
 
     baseline = ExtractMemoryProgram()
 
-    evaluate_program(baseline, valset, "BASELINE VAL")
+    row_records, results = evaluate_program(baseline, valset, "BASELINE VAL")
+    run_dir = save_run_report(
+        run_id=None,
+        title="ForgetIt Optimization Report - Baseline",
+        dataset_path=VAL_PATH,
+        row_records=row_records,
+        summary=summarize(results),
+        notes=["Baseline pre-optimization evaluation."],
+    )
+    print(f"Saved report to: {run_dir / 'report.md'}")
 
     optimizer = dspy.MIPROv2(
         metric=memory_optimization_metric,
@@ -136,7 +172,16 @@ def main() -> None:
         valset=valset,
     )
 
-    evaluate_program(compiled_program, valset, "COMPILED VAL")
+    row_records, results = evaluate_program(compiled_program, valset, "COMPILED VAL")
+    run_dir = save_run_report(
+        run_id=None,
+        title="ForgetIt Optimization Report - Compiled",
+        dataset_path=VAL_PATH,
+        row_records=row_records,
+        summary=summarize(results),
+        notes=["Post-optimization compiled program evaluation."],
+    )
+    print(f"Saved report to: {run_dir / 'report.md'}")
 
     OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     compiled_program.save(str(OUTPUT_PATH))
